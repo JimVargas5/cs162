@@ -1,5 +1,6 @@
 //Jim Vargas
 //CS162 Programming Assignment 1
+//4/14/2018
 
 /*
    This program will calculate the dimensions for a package given a package type and a fluid volume.
@@ -12,6 +13,22 @@
 #include <stdlib.h>
 #include <tgmath.h>
 using namespace std;
+
+int runner(void);
+
+int main()
+{
+	bool keepGoing = true;
+	while (keepGoing)
+	{
+		int runner();
+		if (runner() != 1)
+		{
+			keepGoing = false;
+		}
+	}		
+	return 0;
+}
 
 
 
@@ -29,8 +46,8 @@ int runner(void)
 	int finalSay;
 	float vol, outputDim, convertDim, customRadius, cylinderHeight;
 	int inputChoice, inputChoice2;
-	const float pi = 3.1415925635897;
-	const float flCi = 1.80469;
+	const float PI = 3.1415925635897;
+	const float FL_CI = 1.80469;
 
 	cout << "\n\n\nWelcome. Enter a liquid amount, in fluid ounces, and this program will determine the packaging dimensions needed to contain that fluid."
 		<< " This program uses inches and fluid ounces."  
@@ -41,7 +58,7 @@ int runner(void)
 	cin >> vol;
 	if (cin)
 	{
-		convertDim = vol * flCi;
+		convertDim = vol * FL_CI;
 		cin.ignore();
 		cout << "\nNow, choose a package type. Enter a corresponding number:\n" 
 			<< "Enter [1] for a cube type.\n"
@@ -53,11 +70,13 @@ int runner(void)
 		cin.ignore();
 		switch (inputChoice)
 		{
+			//Cube
 			case 1: 
 				cout << "\nCube Type with " << vol << " fl oz.";
 				outputDim = cbrtf(convertDim);
 				cout << "\n\nFinal dimensions: " << outputDim << " inches on each length.\n";
 				break;
+			//Cylinder
 			case 2:
 				cout << "\nNow, choose your type of cylinder. "
 					<< "'Regular' cylinders are twice as tall as they are wide; height is twice diameter. "
@@ -70,18 +89,20 @@ int runner(void)
 				cin.ignore();
 				switch (inputChoice2)
 				{
+					//Regular Cylinder
 					case 1:
 						cout << "\nRegular cylinder with " << vol << " fl oz.";
-						outputDim = cbrtf((convertDim / (4.0*pi)));
+						outputDim = cbrtf((convertDim / (4.0*PI)));
 						cylinderHeight = outputDim * 4.0;
 						cout << "\n\nFinal dimensions: " << outputDim << " inch radius with a " << cylinderHeight << " inch height.\n";		
 						break;
+					//Custom Cylinder
 					case 2:
-						cout << "\nEnter a radius.\n\n>>>";
+						cout << "\nEnter a radius for the custom cylinder. n\n>>>";
 						cin >> customRadius;
 						cin.ignore();
 						cout << "\nCusom cylinder with " << vol << " fl oz and a " << customRadius << " inch radius.";
-						cylinderHeight = convertDim / (pi * powf(customRadius, 2.0));
+						cylinderHeight = convertDim / (PI * powf(customRadius, 2.0));
 						cout << "\n\nFinal dimensions: " << customRadius << " inch radius with a " << cylinderHeight << " inch height.\n";
 						break;
 					default:
@@ -89,9 +110,10 @@ int runner(void)
 						break;
 				}
 				break;
+			//Sphere
 			case 3: 
 				cout << "\nSphere Type with "<< vol << " fl oz.";
-				outputDim = cbrtf((.75*convertDim));
+				outputDim = cbrtf((.75*PI*convertDim));
 				cout << "\n\nFinal dimensions: " << outputDim << " inch radius for the sphere.\n";
 				break;
 			default:
@@ -112,17 +134,3 @@ int runner(void)
 }
 
 
-
-int main()
-{
-	bool keepGoing = true;
-	while (keepGoing)
-	{
-		int runner();
-		if (runner() != 1)
-		{
-			keepGoing = false;
-		}
-	}		
-	return 0;
-}
