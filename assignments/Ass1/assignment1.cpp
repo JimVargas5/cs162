@@ -117,7 +117,7 @@ int runner(void)
 			//Sphere
 			case 3: 
 				cout << "\nSphere Type with "<< vol << " fl oz.";
-				outputDim = cbrtf((.75*PI*convertDim));
+				outputDim = cbrtf((.75*(convertDim/PI)));
 				cout << "\n\nFinal dimensions: " << outputDim << " inch radius for the sphere.\n";
 				break;
 			default:
