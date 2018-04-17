@@ -58,8 +58,10 @@ int runner(void)
 	cin >> vol;
 	if (cin)
 	{
+		//convert to apropriate units
 		convertDim = vol * FL_CI;
 		cin.ignore();
+
 		cout << "\nNow, choose a package type. Enter a corresponding number:\n" 
 			<< "Enter [1] for a cube type.\n"
 			<< "Enter [2] for a cylinder type.\n"
@@ -68,6 +70,8 @@ int runner(void)
 
 		cin >> inputChoice;
 		cin.ignore();
+
+		//switch cases for various package types
 		switch (inputChoice)
 		{
 			//Cube
@@ -123,14 +127,20 @@ int runner(void)
 	}
 	else
 	{
+		//TODO: Input validation? Difficult to do without strings
 		cout << "There was a problem with your input." << endl;
 		cin.clear();
 		cin.ignore();
 	}
-
+	
+	//loop in main() conditional; loop repeats iff next input == 1
 	cout << "\nDo another round? Enter[1] to continue, otherwise the program will quit.\n\n>>>";
 	cin >> finalSay;
 	return finalSay;		
 }
 
 
+
+
+
+//poop
