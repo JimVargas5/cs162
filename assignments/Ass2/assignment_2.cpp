@@ -28,6 +28,7 @@ seeded block: "wou hay ehink rhis eessage Ds odd, eut st Ps oikely oore Priginal
 #include <limits>
 #include <cstring>
 #include <cctype>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -36,12 +37,27 @@ const int BLOCK_SIZE = 501;
 
 void prompt(int);
 void seed(char, char);
+bool runner(void);
 
 int main()
 {
+	bool keepGoing = true;
+	while (keepGoing)
+	{
+		bool runner();
+		keepGoing = runner();
+	}
+
+	return 0;
+}
+
+bool runner(void)
+{
 	char message[MESSAGE_SIZE];
 	char block[BLOCK_SIZE];
+	char quitter;
 	
+	//message
 	prompt(0);
 	cin.get(message, MESSAGE_SIZE, '\n');
 	while (cin.peek() != '\n')
@@ -53,6 +69,7 @@ int main()
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cout << "\nTEST: " << message << endl;
 
+	//block
 	prompt(1);
 	cin.get(block, BLOCK_SIZE, '\n');
 	while (cin.peek() != '\n')
@@ -64,7 +81,22 @@ int main()
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cout << "\nTEST: " << block << endl;
 
-	return 0;
+	//seed
+
+	//display
+
+	//continue
+	prompt(4);
+	cin >> quitter;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	if (tolower(quitter) == 'y')
+	{
+		return true;
+	} 
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -83,6 +115,12 @@ void prompt(int stage)
 		case 1:
 			cout << "\n\nEnter your paragraph.\n>>>";
 			break;	
+		case 4:
+			cout << "\n\nDo you want to continue?\nEnter [y] to continue, otherwise, the program will quit.\n>>>";
+			break;
+		default:
+			cout << "\n\nQuitting...\n";
+			exit(0);
 	}
 	return;
 }
@@ -92,6 +130,13 @@ void prompt(int stage)
 //
 void seed(char m[], char* b[])
 {
+	//keeping it separate, why oh why
+	int limit = strlen(m);
+	/*for (int i = 0; i < limit; ++i)
+	{	
+		if (b[i] == ' ')
+
+	}*/
 	return;
 }
 
