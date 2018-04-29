@@ -36,8 +36,9 @@ const int MESSAGE_SIZE = 51;
 const int BLOCK_SIZE = 501;
 
 void prompt(int);
-void seed(char, char);
+void seed(char a[], char b[], char c[]);
 bool runner(void);
+void readIn(char a[], int);
 
 int main()
 {
@@ -51,39 +52,39 @@ int main()
 	return 0;
 }
 
+
+
+//runner
 bool runner(void)
 {
 	char message[MESSAGE_SIZE];
 	char block[BLOCK_SIZE];
+	char seededBlock[BLOCK_SIZE];
 	char quitter;
-	
+	for (int i = 0; i < BLOCK_SIZE; ++i)
+	{
+		block[i] = ' ';
+		seededBlock[i] = ' ';
+	}
+
 	//message
 	prompt(0);
-	cin.get(message, MESSAGE_SIZE, '\n');
-	while (cin.peek() != '\n')
-	{
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Too many characters, try again.\n>>>";
-		cin.get(message, MESSAGE_SIZE, '\n');
-	}
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	readIn(message, MESSAGE_SIZE);
 	cout << "\nTEST: " << message << endl;
 
 	//block
 	prompt(1);
-	cin.get(block, BLOCK_SIZE, '\n');
-	while (cin.peek() != '\n')
-	{
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Too many characters, try again.\n>>>";
-		cin.get(block, BLOCK_SIZE, '\n');
-	}
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	readIn(block, BLOCK_SIZE);
 	cout << "\nTEST: " << block << endl;
+	strcpy(seededBlock, block);
 
 	//seed
+	seed(message, block, seededBlock);
 
 	//display
+	cout << "seeding test:\n";
+	for (int i = 0; i< BLOCK_SIZE; ++i)
+		cout << seededBlock[i];
 
 	//continue
 	prompt(4);
@@ -101,7 +102,7 @@ bool runner(void)
 
 
 
-//
+//Displays the various terminal prompts.
 void prompt(int stage)
 {
 	switch (stage)
@@ -110,10 +111,10 @@ void prompt(int stage)
 			cout << "\n\n\nThis program encrypts a message. You will need to enter a message to be encrypted and a paragraph to encrypt the message.\n"
 				<< "Your message cannot be greater than " << (MESSAGE_SIZE-1) << " charcters in length. Case and punctuation will not be preserved in the encryption.\n"
 				<< "Your paragraph cannot be greater than " << (BLOCK_SIZE-1) << " characters in length.\n\n"
-				<< "Enter your message.\n>>>";
+				<< "Enter your message. Do not leave blank.\n>>>";
 			break;
 		case 1:
-			cout << "\n\nEnter your paragraph.\n>>>";
+			cout << "\n\nEnter your paragraph. Do not leave blank.\n>>>";
 			break;	
 		case 4:
 			cout << "\n\nDo you want to continue?\nEnter [y] to continue, otherwise, the program will quit.\n>>>";
@@ -127,21 +128,63 @@ void prompt(int stage)
 
 
 
-//
-void seed(char m[], char* b[])
+//seed
+void seed(char m[], char b[], char sb[])
 {
-	//keeping it separate, why oh why
-	int limit = strlen(m);
-	/*for (int i = 0; i < limit; ++i)
-	{	
-		if (b[i] == ' ')
+	int viablePositions[MESSAGE_SIZE];
+	for (int i = 0; i < MESSAGE_SIZE; ++i)
+		viablePositions[i] = 0;
+	
+	int foundOne = 0;
+	for (int i = 0; i < strlen(b); ++i)
+	{
+		//int foundOne = 0;
+		if (b[i-1] == ' ' || (i == 0 && isalpha(b[i])))
+		{
+			viablePositions[foundOne] = i;
+			++foundOne;
+		}
+	}
+	for (int i = 0; i < MESSAGE_SIZE; ++i)
+	{
+		if (m[i-1] == ' ' && isalpha(m[i]))
+		{
+			//if (isalpha(m[i]))
+				sb[viablePositions[i]] = toupper(m[i]);
+		} else if (isalpha(m[i])) 
+		{
+				sb[viablePositions[i]] = m[i];
+		}
+	}
+	/*cout << "test for spots:\n";
+	cout << "spot 0: " << viablePositions[0] << endl;
+	for (int i = 0; i < MESSAGE_SIZE; ++i)
+	{
+		if (viablePositions[i] != 0)
+			cout << "spot " << i << ": " << viablePositions[i] << "\n";
+	}*/	
 
-	}*/
 	return;
 }
 
 
 
+//Reads in an input relatively safely; this process takes place a few times. The library <limits> is used to clear the entire input buffer.
+void readIn(char a[], int max)
+{
+
+	cin.get(a, max, '\n');
+	while (cin.peek() != '\n')
+	{
+		//ignore the entire buffer
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Too many characters, try again.\n>>>";
+		cin.get(a, max, '\n');
+	}
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	
+	return;
+}
 
 //
 //
