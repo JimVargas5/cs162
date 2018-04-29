@@ -1,13 +1,13 @@
 //Jim Vargas
 //CS162 Programming Assignment 2
-//4/??/2018
+//4/31/2018
 
-//NOTE: Definition of terminology:
+//Definition of terminology:
 /*
 MESSAGE: the sentence to be encrypted
 BLOCK: the paragraph in which the message is seeded
 SEED(ED): the process of encrypting the message in the block, described below.
- */
+*/
 
 
 /*
@@ -42,6 +42,7 @@ void readIn(char a[], int);
 
 int main()
 {
+	cout << "test for isalpha " << isalpha(' ') << endl; 
 	bool keepGoing = true;
 	while (keepGoing)
 	{
@@ -145,18 +146,24 @@ void seed(char m[], char b[], char sb[])
 			++foundOne;
 		}
 	}
-	for (int i = 0; i < MESSAGE_SIZE; ++i)
+//	cout << "\nprior spot test: nd first spot test:" << m[-1] << ", " << m[0] << endl;
+	
+	for (int i = 0; i < strlen(m); ++i)
 	{
-		if (m[i-1] == ' ' && isalpha(m[i]))
+		cout << "\nsome tests " << m[i] << endl << endl;
+		if (isalpha(m[i]))
+		{ 
+		if (m[i-1] == ' ')
 		{
-			//if (isalpha(m[i]))
-				sb[viablePositions[i]] = toupper(m[i]);
-		} else if (isalpha(m[i])) 
+			sb[viablePositions[i]] = toupper(m[i]);
+		} else 
 		{
-				sb[viablePositions[i]] = m[i];
+			sb[viablePositions[i]] = m[i];
+		}
 		}
 	}
-	/*cout << "test for spots:\n";
+
+/*	cout << "test for spots:\n";
 	cout << "spot 0: " << viablePositions[0] << endl;
 	for (int i = 0; i < MESSAGE_SIZE; ++i)
 	{
