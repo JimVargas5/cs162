@@ -91,7 +91,7 @@ bool runner(void)
 	else
 		return false;
 }
-
+izeof(list) / sizeof(list[0])
 
 
 //Displays the various terminal prompts.
@@ -138,8 +138,9 @@ void seed(char m[], char b[], char sb[])
 			++foundOne;
 		}
 	}
-	for (int i = 0; i < foundOne; ++i)
-		cout << "viable spot " << i << ": " << b[viablePositions[i]] << endl;
+
+//	for (int i = 0; i < foundOne; ++i)
+	//	cout << "viable spot " << i << ": " << b[viablePositions[i]] << endl;
 	
 	//seeding
 	int offset = 0;
@@ -153,9 +154,17 @@ void seed(char m[], char b[], char sb[])
 			else 
 				sb[viablePositions[i-offset]] = m[i];
 			++wordsUsed;
+			//cout << wordsUsed << endl << viablePositions[wordsUsed] << endl;
 		} else
 			++offset;
 	}
+	
+	//sb test	
+	cout << "\nsb test: " << sb << endl;
+	for (int i = 0; i <= wordsUsed; ++i)
+		cout << viablePositions[i] << endl;
+	cout << "words used: " << wordsUsed << endl;
+	cout << "final spot: " << viablePositions[wordsUsed -1] << sb[viablePositions[wordsUsed-1]] << endl;
 	
 	//all characters following the last word needed from the block are made blank
 	int finalSpot = viablePositions[wordsUsed];
