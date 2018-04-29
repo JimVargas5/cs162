@@ -7,7 +7,7 @@
 MESSAGE: the sentence to be encrypted
 BLOCK: the paragraph in which the message is seeded
 SEED(ED): the process of encrypting the message in the block, described below.
-*/
+ */
 
 
 /*
@@ -41,8 +41,7 @@ bool runner(void);
 void readIn(char a[], int);
 
 int main()
-{
-	cout << "test for isalpha " << isalpha(' ') << endl; 
+{ 
 	bool keepGoing = true;
 	while (keepGoing)
 	{
@@ -55,7 +54,7 @@ int main()
 
 
 
-//runner
+//Runs the main functionality of the program. Loops in main().
 bool runner(void)
 {
 	char message[MESSAGE_SIZE];
@@ -71,12 +70,12 @@ bool runner(void)
 	//message
 	prompt(0);
 	readIn(message, MESSAGE_SIZE);
-	cout << "\nTEST: " << message << endl;
+	//cout << "\nTEST: " << message << endl;
 
 	//block
 	prompt(1);
 	readIn(block, BLOCK_SIZE);
-	cout << "\nTEST: " << block << endl;
+	//cout << "\nTEST: " << block << endl;
 	strcpy(seededBlock, block);
 
 	//seed
@@ -92,13 +91,9 @@ bool runner(void)
 	cin >> quitter;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	if (tolower(quitter) == 'y')
-	{
 		return true;
-	} 
 	else
-	{
 		return false;
-	}
 }
 
 
@@ -110,7 +105,7 @@ void prompt(int stage)
 	{
 		case 0:
 			cout << "\n\n\nThis program encrypts a message. You will need to enter a message to be encrypted and a paragraph to encrypt the message.\n"
-				<< "Your message cannot be greater than " << (MESSAGE_SIZE-1) << " charcters in length. Case and punctuation will not be preserved in the encryption.\n"
+				<< "Your message cannot be greater than " << (MESSAGE_SIZE-1) << " charcters in length. Punctuation will not be preserved in the encryption.\n"
 				<< "Your paragraph cannot be greater than " << (BLOCK_SIZE-1) << " characters in length.\n\n"
 				<< "Enter your message. Do not leave blank.\n>>>";
 			break;
@@ -122,20 +117,20 @@ void prompt(int stage)
 			break;
 		default:
 			cout << "\n\nQuitting...\n";
-			exit(0);
+			exit(1);
 	}
 	return;
 }
 
 
 
-//seed
+//Seeds a block with a message. Uses a dummy block, sb, to retain the form of the inputted block.
 void seed(char m[], char b[], char sb[])
 {
 	int viablePositions[MESSAGE_SIZE];
 	for (int i = 0; i < MESSAGE_SIZE; ++i)
 		viablePositions[i] = 0;
-	
+
 	int foundOne = 0;
 	for (int i = 0; i < strlen(b); ++i)
 	{
@@ -146,30 +141,49 @@ void seed(char m[], char b[], char sb[])
 			++foundOne;
 		}
 	}
-//	cout << "\nprior spot test: nd first spot test:" << m[-1] << ", " << m[0] << endl;
 	
+/*	int spaceSpots[MESSAGE_SIZE];
+	int foundAnother = 0;
 	for (int i = 0; i < strlen(m); ++i)
 	{
-		cout << "\nsome tests " << m[i] << endl << endl;
+		spaceSpots[i] = 0;
+		if (m[i] == ' ')
+		{
+			spaceSpots[foundAnother] = i;
+			++foundAnother;
+			for (int j = i; j < strlen(m); ++j)
+				m[j] = m[j+1]; 
+			m[strlen(m)-1] = ' ';
+		}
+	}
+	cout << "\nspace test: " << m << endl << endl;
+	*/	
+
+	//	cout << "\nprior spot test: nd first spot test:" << m[-1] << ", " << m[0] << endl;
+	
+	int offset = 0;
+	for (int i = 0; i < strlen(m); ++i)
+	{
+//		cout << "\nsome tests " << m[i] << endl << endl;
 		if (isalpha(m[i]))
 		{ 
-		if (m[i-1] == ' ')
+			if (m[i-1] == ' ')
+				sb[viablePositions[i-offset]] = toupper(m[i]);
+			else 
+				sb[viablePositions[i-offset]] = m[i];
+		} else
 		{
-			sb[viablePositions[i]] = toupper(m[i]);
-		} else 
-		{
-			sb[viablePositions[i]] = m[i];
-		}
+			++offset;
 		}
 	}
 
-/*	cout << "test for spots:\n";
-	cout << "spot 0: " << viablePositions[0] << endl;
-	for (int i = 0; i < MESSAGE_SIZE; ++i)
-	{
+		/*cout << "test for spots:\n";
+		cout << "spot 0: " << viablePositions[0] << endl;
+		for (int i = 0; i < MESSAGE_SIZE; ++i)
+		{
 		if (viablePositions[i] != 0)
-			cout << "spot " << i << ": " << viablePositions[i] << "\n";
-	}*/	
+		cout << "spot " << i << ": " << viablePositions[i] << "\n";
+		}*/	
 
 	return;
 }
@@ -189,7 +203,7 @@ void readIn(char a[], int max)
 		cin.get(a, max, '\n');
 	}
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	
+
 	return;
 }
 
