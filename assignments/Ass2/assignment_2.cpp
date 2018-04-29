@@ -19,9 +19,9 @@ SEED(ED): the process of encrypting the message in the block, described below.
    Additionally, the first letter of evey word in the message following the first (thus, not including the first), will be capitalized when replacing the corresponding letter in the block.
    The block's length, when returned having been seeded by the message, will be shortened to include only the necessary number of words to sufficienty seed the block.
    Here is an example:
-message: "where does poop go"
-unseeded block: "You may think this message is odd, but it is likely more original than this silly block."
-seeded block: "wou hay ehink rhis eessage Ds odd, eut st Ps oikely oore Priginal Ghen ohis"
+	message: "a11 bob"
+	unseeded block: "one. two threE four. five six seven."
+	seeded block: "ane. 1wo 1heE Bour. oive bix"
  */
 
 #include <iostream>
@@ -70,22 +70,18 @@ bool runner(void)
 	//message
 	prompt(0);
 	readIn(message, MESSAGE_SIZE);
-	//cout << "\nTEST: " << message << endl;
 
 	//block
 	prompt(1);
 	readIn(block, BLOCK_SIZE);
-	//cout << "\nTEST: " << block << endl;
 	strcpy(seededBlock, block);
 
 	//seed
 	seed(message, block, seededBlock);
 
 	//display
-	cout << "seeding test:\n";
-	for (int i = 0; i< BLOCK_SIZE; ++i)
-		cout << seededBlock[i];
-
+	cout << "\n\nEncrypted Message: \n" << seededBlock << endl;
+	
 	//continue
 	prompt(4);
 	cin >> quitter;
@@ -127,64 +123,45 @@ void prompt(int stage)
 //Seeds a block with a message. Uses a dummy block, sb, to retain the form of the inputted block.
 void seed(char m[], char b[], char sb[])
 {
+	//initialize all viable spots for swapping to be blank
 	int viablePositions[MESSAGE_SIZE];
 	for (int i = 0; i < MESSAGE_SIZE; ++i)
 		viablePositions[i] = 0;
 
+	//search for all viable spots for swapping in the block
 	int foundOne = 0;
 	for (int i = 0; i < strlen(b); ++i)
 	{
-		//int foundOne = 0;
 		if (b[i-1] == ' ' || (i == 0 && isalpha(b[i])))
 		{
 			viablePositions[foundOne] = i;
 			++foundOne;
 		}
 	}
+	for (int i = 0; i < foundOne; ++i)
+		cout << "viable spot " << i << ": " << b[viablePositions[i]] << endl;
 	
-/*	int spaceSpots[MESSAGE_SIZE];
-	int foundAnother = 0;
-	for (int i = 0; i < strlen(m); ++i)
-	{
-		spaceSpots[i] = 0;
-		if (m[i] == ' ')
-		{
-			spaceSpots[foundAnother] = i;
-			++foundAnother;
-			for (int j = i; j < strlen(m); ++j)
-				m[j] = m[j+1]; 
-			m[strlen(m)-1] = ' ';
-		}
-	}
-	cout << "\nspace test: " << m << endl << endl;
-	*/	
-
-	//	cout << "\nprior spot test: nd first spot test:" << m[-1] << ", " << m[0] << endl;
-	
+	//seeding
 	int offset = 0;
+	int wordsUsed = 0;
 	for (int i = 0; i < strlen(m); ++i)
 	{
-//		cout << "\nsome tests " << m[i] << endl << endl;
-		if (isalpha(m[i]))
+		if (m[i] != ' ')
 		{ 
 			if (m[i-1] == ' ')
 				sb[viablePositions[i-offset]] = toupper(m[i]);
 			else 
 				sb[viablePositions[i-offset]] = m[i];
+			++wordsUsed;
 		} else
-		{
 			++offset;
-		}
 	}
-
-		/*cout << "test for spots:\n";
-		cout << "spot 0: " << viablePositions[0] << endl;
-		for (int i = 0; i < MESSAGE_SIZE; ++i)
-		{
-		if (viablePositions[i] != 0)
-		cout << "spot " << i << ": " << viablePositions[i] << "\n";
-		}*/	
-
+	
+	//all characters following the last word needed from the block are made blank
+	int finalSpot = viablePositions[wordsUsed];
+	for (int i = finalSpot; i < strlen(sb); ++i)
+		sb[i] = ' ';
+	
 	return;
 }
 
