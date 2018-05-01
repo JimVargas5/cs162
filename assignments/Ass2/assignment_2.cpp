@@ -42,13 +42,18 @@ void readIn(char a[], int);
 
 int main()
 { 
-	bool keepGoing = true;
-	while (keepGoing)
+	try
 	{
-		bool runner();
-		keepGoing = runner();
+		bool keepGoing = true;
+		while (keepGoing)
+		{
+			bool runner();
+			keepGoing = runner();
+		}
+	} catch (exception& e)
+	{
+		cerr << "You didn't follow directions: " << e.what() << endl;
 	}
-
 	return 0;
 }
 
@@ -158,27 +163,26 @@ void seed(char m[], char b[], char sb[])
 		}
 	}
 
+	/*
 	//sb test	
 	cout << "\nsb test: " << sb << endl;
 	for (int i = 0; i <= wordsUsed; ++i)
 		cout << viablePositions[i] << endl;
 	cout << "words used: " << wordsUsed << endl;
 	//
+	*/
 
 	//all characters following the last word needed from the block are made blank following last space
 	int finalSpot = viablePositions[wordsUsed - 1];
-	cout << "final spot: " << finalSpot << " corresponding " << b[finalSpot] << endl;
+	//cout << "final spot: " << finalSpot << " corresponding " << b[finalSpot] << endl;
 	int finalSpace = viablePositions[finalSpot];
 	int x = finalSpot;
 	while (b[finalSpace] != ' ')
 	{	
 		if (b[x] == ' ' || b[x] == '\n' || b[x] == '\0')
-		{
 			finalSpace = x;
-		}
 		++x;
 	}
-	cout << "\nfinal space: " << finalSpace << endl;
 	for (int i = finalSpace; i < strlen(sb); ++i)
 		sb[i] = ' ';
 	return;
