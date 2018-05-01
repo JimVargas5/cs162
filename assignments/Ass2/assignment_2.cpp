@@ -19,9 +19,9 @@ SEED(ED): the process of encrypting the message in the block, described below.
    Additionally, the first letter of evey word in the message following the first (thus, not including the first), will be capitalized when replacing the corresponding letter in the block.
    The block's length, when returned having been seeded by the message, will be shortened to include only the necessary number of words to sufficienty seed the block.
    Here is an example:
-	message: "a11 bob"
-	unseeded block: "one. two threE four. five six seven."
-	seeded block: "ane. 1wo 1heE Bour. oive bix"
+message: "a11 bob"
+unseeded block: "one. two threE four. five six seven."
+seeded block: "ane. 1wo 1heE Bour. oive bix"
  */
 
 #include <iostream>
@@ -81,7 +81,7 @@ bool runner(void)
 
 	//display
 	cout << "\n\nEncrypted Message: \n" << seededBlock << endl;
-	
+
 	//continue
 	prompt(4);
 	cin >> quitter;
@@ -91,7 +91,7 @@ bool runner(void)
 	else
 		return false;
 }
-izeof(list) / sizeof(list[0])
+
 
 
 //Displays the various terminal prompts.
@@ -101,12 +101,12 @@ void prompt(int stage)
 	{
 		case 0:
 			cout << "\n\n\nThis program encrypts a message. You will need to enter a message to be encrypted and a paragraph to encrypt the message.\n"
-				<< "Your message cannot be greater than " << (MESSAGE_SIZE-1) << " charcters in length. Punctuation will not be preserved in the encryption.\n"
+				<< "Your message cannot be greater than " << (MESSAGE_SIZE-1) << " charcters in length.\n"
 				<< "Your paragraph cannot be greater than " << (BLOCK_SIZE-1) << " characters in length.\n\n"
 				<< "Enter your message. Do not leave blank.\n>>>";
 			break;
 		case 1:
-			cout << "\n\nEnter your paragraph. Do not leave blank.\n>>>";
+			cout << "\n\nEnter your paragraph. For each character in your message, include a word in the block. Do not leave blank.\n>>>";
 			break;	
 		case 4:
 			cout << "\n\nDo you want to continue?\nEnter [y] to continue, otherwise, the program will quit.\n>>>";
@@ -124,8 +124,8 @@ void prompt(int stage)
 void seed(char m[], char b[], char sb[])
 {
 	//initialize all viable spots for swapping to be blank
-	int viablePositions[MESSAGE_SIZE];
-	for (int i = 0; i < MESSAGE_SIZE; ++i)
+	int viablePositions[strlen(m)-1];
+	for (int i = 0; i < strlen(m)-1; ++i)
 		viablePositions[i] = 0;
 
 	//search for all viable spots for swapping in the block
@@ -139,38 +139,48 @@ void seed(char m[], char b[], char sb[])
 		}
 	}
 
-//	for (int i = 0; i < foundOne; ++i)
-	//	cout << "viable spot " << i << ": " << b[viablePositions[i]] << endl;
-	
 	//seeding
 	int offset = 0;
 	int wordsUsed = 0;
 	for (int i = 0; i < strlen(m); ++i)
 	{
-		if (m[i] != ' ')
-		{ 
-			if (m[i-1] == ' ')
-				sb[viablePositions[i-offset]] = toupper(m[i]);
-			else 
-				sb[viablePositions[i-offset]] = m[i];
-			++wordsUsed;
-			//cout << wordsUsed << endl << viablePositions[wordsUsed] << endl;
-		} else
-			++offset;
+		if (i == 0 || (i > 0 && viablePositions[i] != 0))
+		{
+			if (m[i] != ' ')
+			{ 
+				if (m[i-1] == ' ')
+					sb[viablePositions[i-offset]] = toupper(m[i]);
+				else 
+					sb[viablePositions[i-offset]] = m[i];
+				++wordsUsed;
+			} else
+				++offset;
+		}
 	}
-	
+
 	//sb test	
 	cout << "\nsb test: " << sb << endl;
 	for (int i = 0; i <= wordsUsed; ++i)
 		cout << viablePositions[i] << endl;
 	cout << "words used: " << wordsUsed << endl;
-	cout << "final spot: " << viablePositions[wordsUsed -1] << sb[viablePositions[wordsUsed-1]] << endl;
-	
-	//all characters following the last word needed from the block are made blank
-	int finalSpot = viablePositions[wordsUsed];
-	for (int i = finalSpot; i < strlen(sb); ++i)
+	//
+
+	//all characters following the last word needed from the block are made blank following last space
+	int finalSpot = viablePositions[wordsUsed - 1];
+	cout << "final spot: " << finalSpot << " corresponding " << b[finalSpot] << endl;
+	int finalSpace = viablePositions[finalSpot];
+	int x = finalSpot;
+	while (b[finalSpace] != ' ')
+	{	
+		if (b[x] == ' ' || b[x] == '\n' || b[x] == '\0')
+		{
+			finalSpace = x;
+		}
+		++x;
+	}
+	cout << "\nfinal space: " << finalSpace << endl;
+	for (int i = finalSpace; i < strlen(sb); ++i)
 		sb[i] = ' ';
-	
 	return;
 }
 
