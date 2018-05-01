@@ -52,6 +52,7 @@ int main()
 		}
 	} catch (exception& e)
 	{
+		//seg-fault??
 		cerr << "You didn't follow directions: " << e.what() << endl;
 	}
 	return 0;
@@ -120,6 +121,7 @@ void prompt(int stage)
 			cout << "\n\nQuitting...\n";
 			exit(1);
 	}
+
 	return;
 }
 
@@ -163,18 +165,8 @@ void seed(char m[], char b[], char sb[])
 		}
 	}
 
-	/*
-	//sb test	
-	cout << "\nsb test: " << sb << endl;
-	for (int i = 0; i <= wordsUsed; ++i)
-		cout << viablePositions[i] << endl;
-	cout << "words used: " << wordsUsed << endl;
-	//
-	*/
-
 	//all characters following the last word needed from the block are made blank following last space
 	int finalSpot = viablePositions[wordsUsed - 1];
-	//cout << "final spot: " << finalSpot << " corresponding " << b[finalSpot] << endl;
 	int finalSpace = viablePositions[finalSpot];
 	int x = finalSpot;
 	while (b[finalSpace] != ' ')
@@ -185,6 +177,7 @@ void seed(char m[], char b[], char sb[])
 	}
 	for (int i = finalSpace; i < strlen(sb); ++i)
 		sb[i] = ' ';
+
 	return;
 }
 
@@ -193,7 +186,6 @@ void seed(char m[], char b[], char sb[])
 //Reads in an input relatively safely; this process takes place a few times. The library <limits> is used to clear the entire input buffer.
 void readIn(char a[], int max)
 {
-
 	cin.get(a, max, '\n');
 	while (cin.peek() != '\n')
 	{
