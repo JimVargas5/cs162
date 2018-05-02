@@ -39,6 +39,7 @@ void prompt(int);
 void seed(char a[], char b[], char c[]);
 bool runner(void);
 void readIn(char a[], int);
+bool de_seed(void);
 
 int main()
 { 
@@ -47,8 +48,23 @@ int main()
 		bool keepGoing = true;
 		while (keepGoing)
 		{
-			bool runner();
-			keepGoing = runner();
+			int choice;
+
+			prompt(3);
+			cin >> choice;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			if (choice == 1)
+			{
+				bool runner();
+				keepGoing = runner();
+			} else if (choice == 2)
+			{
+				prompt (5);
+				bool de_seed();
+				keepGoing = de_seed();
+			}	
+			else
+				keepGoing = false;
 		}
 	} catch (exception& e)
 	{
@@ -114,8 +130,14 @@ void prompt(int stage)
 		case 1:
 			cout << "\n\nEnter your paragraph. For each character in your message, include a word in the block. Do not leave blank.\n>>>";
 			break;	
+		case 3:
+			cout << "\n\n\nEncode or decode a message?\n[1] to encode, [2] to decode. Enter anything else to quit.\n>>>";
+			break;
 		case 4:
 			cout << "\n\nDo you want to continue?\nEnter [y] to continue, otherwise, the program will quit.\n>>>";
+			break;
+		case 5:
+			cout << "\n\nEnter the paragraph to be decoded. The paragraph cannot be greater than " << (BLOCK_SIZE-1) << " characters in length. Do not leave blank.\n>>>";
 			break;
 		default:
 			cout << "\n\nQuitting...\n";
@@ -198,6 +220,54 @@ void readIn(char a[], int max)
 
 	return;
 }
+
+
+
+//De-seeds a given block and displays message
+bool de_seed()
+{
+	char seededBlock[BLOCK_SIZE];
+	char message[BLOCK_SIZE];
+	char quitter;
+	
+	for (int i = 0; i < BLOCK_SIZE; ++i)
+	{
+		seededBlock[i] = ' ';
+		message[i] = ' ';
+	}	
+
+	readIn(seededBlock, BLOCK_SIZE);
+	
+	int counter = 0;
+	for (int i = 0; i < strlen(seededBlock); ++i)
+	{
+		if (i == 0 || seededBlock[i-1] == ' ')
+		{	
+			if (isupper(seededBlock[i]))
+			{
+				message[counter] = ' ';
+				++counter;
+				message[counter] = tolower(seededBlock[i]);
+				++counter;
+			} else
+			{
+				message[counter] = seededBlock[i];
+				++counter;
+			}
+		}
+	}
+	
+	cout << "Decoded message: " << message << endl;
+	prompt(4);
+	cin >> quitter;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	if (tolower(quitter == 'y'))
+		return true;
+	else
+		return false;
+}
+
+
 
 //
 //
