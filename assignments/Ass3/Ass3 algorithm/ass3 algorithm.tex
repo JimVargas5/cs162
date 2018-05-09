@@ -12,7 +12,6 @@
 Jim Vargas \\
 CS 162 Programming Assignment 3 \\
 \today \\
-
 \begin{center}
 Algorithm
 \end{center}
@@ -21,15 +20,34 @@ Algorithm
 	
 	Let the principle function by which the lesser functions will be linked be designated as 'main' hereon, who's purpose will be to act as the back-end manager. Functions and other important procedures shall be linked to the user via main. Main shall store no permanent data, data shall be filtered into and then out of main.
 		
-	Let the process by which the user interacts with main be designated as 'GUI' hereon, short for general user interface. GUI will consist of the various prompts which will be printed to the terminal for the user, and will have methods to read in any input should this be appropriate. GUI will be necessity store built in prompts.
+	Let the process by which the user interacts with main be designated as 'GUI,' short for general user interface. GUI will consist of the various prompts which will be printed to the terminal for the user, and will have methods to read in any input should this be appropriate. GUI will be necessity store built in prompts.
 	
 	Let the database itself be designated as 'ML,' short for master list. ML shall be an external text file stored within accessible range of the program's calling privileges. All data concerning the animals shall be stored, written and retrievable here.
 	
-\begin{center}
+\begin{figure}[h]
+\centering
 \includegraphics[scale=.8]{data_chart.png}\\
-Figure 1: Data Flow Chart
-\end{center}
+\caption{Data Flow Chart} 
+\label{fig:fig1}
+\end{figure}
 
-	Figure 1 above describes the look of the program at a high level.
+	Figure \ref{fig:fig1} above describes the look of the program at a high level. In the figure, 'Action' is a place holder for whatever kind of action main requires of the master list. For example, if main requires all pet data, its directive to Action would be to retrieve all pet data. To this end, 'Action' can represent a family of lesser functions: one for searching for data, one for retrieving data, and so on.
+	
+	Now, concerning the aforementioned 'pet data,' each element in ML shall consist of a few attributes. Each element in ML shall represent a distinct pet, and its attributes shall represent the pet's unique characteristics. The attributes of the elements and their corresponding classic data types are defined in Table \ref{tab:tab1}.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c}
+	\bf{Pet element} & \bf{Data Type}\\ \hline
+	Animal Type & string\\ \hline
+	Animal Breed & string \\ \hline
+	Misc. Info & string \\ \hline
+	Friendly Temperament \\ (with animals) & character \\ \hline
+	Frienfly Temperament \\ (with children) & character \\ \hline
+	Misc. Pros & string \\ \hline
+	Mis. Cons & string \\
+	\end{tabular}
+\caption{Attributes of the 'Pet' Element} \label{tab:tab1}
+\end{table}
+In the event that one's language of choice does not recognize strings, the corresponding attributes can be saved as character arrays. Note that two attributes only require one character (as opposed to a string).
 
 \end{document}
