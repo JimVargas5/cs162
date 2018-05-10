@@ -1,0 +1,6 @@
+#gitignore for ass3
+
+*.swo
+*.swp
+
+
