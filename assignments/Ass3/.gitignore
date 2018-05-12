@@ -1,6 +1,5 @@
 #gitignore for ass3
 
+*.exe
 *.swo
 *.swp
-
-
