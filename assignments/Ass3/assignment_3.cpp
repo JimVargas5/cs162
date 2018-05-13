@@ -33,7 +33,8 @@ pet newPet(void);
 
 int main()
 {
-	//stuff	
+	pet p = newPet();
+	cout << "Test: " << p.breed << endl;
 
 	return 0;
 }
@@ -55,31 +56,37 @@ pet newPet()
 	pet p;
 
 	cout << "\nWhat is this animal's type?\n>>>";
-	cin.get(p.type, SIZE, '\n');
+	cin.getline(p.type, SIZE);
 	ignore();
 
 	cout << "What is this animal's breed?\n>>>";
-	cin.get(p.breed, SIZE, '\n');
+	cin.getline(p.breed, SIZE);
 	ignore();
 
-	cout << "Is the animal friendly with other animals?\n>>>";
-	p.tempA = cin.get();
-	ignore();
+	do
+	{
+		cout << "Is the animal friendly with other animals? Enter [Y/N]\n>>>";
+		p.tempA = cin.get();
+		ignore();
+	} while (toupper(p.tempA) != 'Y' && toupper(p.tempA) != 'N');
 
-	cout << "Is the animal friendly with children?\n>>>";
-	p.tempC = cin.get();
-	ignore();
+	do
+	{
+		cout << "Is the animal friendly with children? Enter [Y/N]\n>>>";
+		p.tempC = cin.get();
+		ignore();
+	} while (toupper(p.tempC) != 'Y' && toupper(p.tempC) != 'N');
 
 	cout << "Miscellaneous information?\n>>>";
-	cin.get(p.misc, SIZE, '\n');
+	cin.getline(p.misc, SIZE);
 	ignore();
 
 	cout << "Miscellaneous pros?\n>>>";
-	cin.get(p.miscP, SIZE, '\n');
+	cin.getline(p.miscP, SIZE);
 	ignore();
 
 	cout << "Miscellaneous cons?\n>>>";
-	cin.get(p.miscC, SIZE, '\n');
+	cin.getline(p.miscC, SIZE);
 	ignore();
 
 	return p;
