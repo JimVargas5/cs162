@@ -2,7 +2,9 @@
 //CS162 Programming Assignment 3
 //5/12/2018
 
-//general stuff here
+//This program will function as a sort of 'proof of concept' databse via command line prompts and saving data to text documents. 
+//The specific theme of this primitive database will involve pets; a user, wishing to store and retrieve information about various animals will be able to use this program to do so.
+
 
 #include <iostream>
 #include <limits>
@@ -13,7 +15,7 @@ using namespace std;
 
 
 const int SIZE = 201;
-const char file[] = "animals.txt";
+const char OUTFILE[] = "animals.txt";
 
 struct pet
 {
@@ -29,8 +31,8 @@ struct pet
 void ignore(void);
 pet newPet(void);
 bool gui(void);
-void newA(void);
-void search(void);
+void newAnimal(void);
+void searchGui(void);
 void guiIn(int&, const char[]);
 
 
@@ -38,9 +40,9 @@ int main()
 {
 	//pet p = newPet();
 	//cout << "Test: " << p.breed << endl;
-	
+
 	bool gui();
-	
+
 	while (gui());
 
 	return 0;
@@ -64,11 +66,11 @@ pet newPet()
 
 	cout << "\nWhat is this animal's type?\n>>>";
 	cin.getline(p.type, SIZE);
-	ignore();
+	//ignore();
 
 	cout << "What is this animal's breed?\n>>>";
 	cin.getline(p.breed, SIZE);
-	ignore();
+	//ignore();
 
 	do
 	{
@@ -86,15 +88,15 @@ pet newPet()
 
 	cout << "Miscellaneous information?\n>>>";
 	cin.getline(p.misc, SIZE);
-	ignore();
+	//ignore();
 
 	cout << "Miscellaneous pros?\n>>>";
 	cin.getline(p.miscP, SIZE);
-	ignore();
+	//ignore();
 
 	cout << "Miscellaneous cons?\n>>>";
 	cin.getline(p.miscC, SIZE);
-	ignore();
+	//ignore();
 
 	return p;
 }
@@ -114,10 +116,10 @@ bool gui()
 			keepGoing = false;
 			break;
 		case 1: 
-			newA();
+			newAnimal();
 			break;
 		case 2:
-			search();
+			searchGui();
 			break;
 		default:
 			cout << "Quitting...\n";
@@ -132,27 +134,35 @@ bool gui()
 
 
 //Interface for creating a new animal
-void newA()
+void newAnimal()
 {
-	cout << "\n Now, a new animal.";
-	pet p = newPet();
-	
-	int choice;
-	guiIn(choice, "Do you want to commit this animal to the pet repository? Enter\n[0/anything else] to return to the main menu\n[1] to commit animal\n[2] to try again\n>>>");
-	switch (choice)
+	bool keepGoing = true;
+	cout << "\nNow, a new animal.";
+
+	while (keepGoing)
 	{
-		case 0:
-			//return
-			break;
-		case 1:
-			//write pet
-			break;
-		case 2:
-			//try again
-			break;
-		default:
-			//return
-			break;
+		pet p = newPet();
+		int choice;
+
+		cout << "\nAnimal in queue: " << p.breed << endl;
+		guiIn(choice, "Do you want to commit this animal to the pet repository? Enter\n[0/else] to return to the main menu\n[1] to commit animal\n[2] to try again\n>>>");
+		switch (choice)
+		{
+			case 0:
+				keepGoing = false;
+				break;
+			case 1:
+				cout << "\nwriting pet test\n";
+
+				keepGoing = false;
+				break;
+			case 2:
+				cout << "Doing it over...";
+				break;
+			default:
+				keepGoing = false;
+				break;
+		}
 	}
 
 	return;
@@ -162,7 +172,7 @@ void newA()
 
 
 //Search interface
-void search()
+void searchGui()
 {
 	cout << "\nSearch test\n";
 	return;
@@ -174,7 +184,11 @@ void search()
 void guiIn(int &c, const char s[])
 {
 	cout << s;
-	cin >> c;
+	if (isdigit(cin.peek()))
+		cin >> c;
+	else
+		c = 0;
+	//cout << "\nchoice test? " << c << endl;
 	ignore();
 	return;
 }
