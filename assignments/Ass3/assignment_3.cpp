@@ -28,13 +28,20 @@ struct pet
 
 void ignore(void);
 pet newPet(void);
-
+bool gui(void);
+void newA(void);
+void search(void);
+void guiIn(int&, const char[]);
 
 
 int main()
 {
-	pet p = newPet();
-	cout << "Test: " << p.breed << endl;
+	//pet p = newPet();
+	//cout << "Test: " << p.breed << endl;
+	
+	bool gui();
+	
+	while (gui());
 
 	return 0;
 }
@@ -92,6 +99,85 @@ pet newPet()
 	return p;
 }
 
+
+
+//General User Interface
+bool gui()
+{
+	bool keepGoing = true;
+	int choice = 0;
+	guiIn(choice, "\n\nWelcome to the pet database. You have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add a new animal\n[2] to search existing animals\n>>>");
+	switch (choice)
+	{
+		case 0:
+			cout << "Quitting...\n";
+			keepGoing = false;
+			break;
+		case 1: 
+			newA();
+			break;
+		case 2:
+			search();
+			break;
+		default:
+			cout << "Quitting...\n";
+			keepGoing = false;
+			break;
+	}
+
+
+	return keepGoing;
+}
+
+
+
+//Interface for creating a new animal
+void newA()
+{
+	cout << "\n Now, a new animal.";
+	pet p = newPet();
+	
+	int choice;
+	guiIn(choice, "Do you want to commit this animal to the pet repository? Enter\n[0/anything else] to return to the main menu\n[1] to commit animal\n[2] to try again\n>>>");
+	switch (choice)
+	{
+		case 0:
+			//return
+			break;
+		case 1:
+			//write pet
+			break;
+		case 2:
+			//try again
+			break;
+		default:
+			//return
+			break;
+	}
+
+	return;
+}
+
+
+
+
+//Search interface
+void search()
+{
+	cout << "\nSearch test\n";
+	return;
+}
+
+
+
+//Read in choice for GUI
+void guiIn(int &c, const char s[])
+{
+	cout << s;
+	cin >> c;
+	ignore();
+	return;
+}
 
 
 
