@@ -14,18 +14,20 @@
 using namespace std;
 
 
-const int SIZE = 201;
+const int BIG = 201;
+const int MED = 101;
+const int SMALL = 41;
 const char OUTFILE[] = "animals.txt";
 
 struct pet
 {
-	char type[SIZE];
-	char breed[SIZE];
+	char type[SMALL];
+	char breed[SMALL];
 	char tempA;
 	char tempC;
-	char misc[SIZE];
-	char miscP[SIZE];
-	char miscC[SIZE];
+	char misc[BIG];
+	char miscP[MED];
+	char miscC[MED];
 };
 
 void ignore(void);
@@ -39,11 +41,7 @@ void commitAnimal(const char[], pet);
 
 int main()
 {
-	//pet p = newPet();
-	//cout << "Test: " << p.breed << endl;
-
 	bool gui();
-
 	while (gui());
 
 	return 0;
@@ -66,11 +64,11 @@ pet newPet()
 	pet p;
 
 	cout << "\nWhat is this animal's type?\n>>>";
-	cin.getline(p.type, SIZE);
+	cin.getline(p.type, SMALL);
 	//ignore();
 
 	cout << "What is this animal's breed?\n>>>";
-	cin.getline(p.breed, SIZE);
+	cin.getline(p.breed, SMALL);
 	//ignore();
 
 	do
@@ -88,15 +86,15 @@ pet newPet()
 	} while (toupper(p.tempC) != 'Y' && toupper(p.tempC) != 'N');
 
 	cout << "Miscellaneous information?\n>>>";
-	cin.getline(p.misc, SIZE);
+	cin.getline(p.misc, BIG);
 	//ignore();
 
 	cout << "Miscellaneous pros?\n>>>";
-	cin.getline(p.miscP, SIZE);
+	cin.getline(p.miscP, MED);
 	//ignore();
 
 	cout << "Miscellaneous cons?\n>>>";
-	cin.getline(p.miscC, SIZE);
+	cin.getline(p.miscC, MED);
 	//ignore();
 
 	return p;
@@ -153,7 +151,9 @@ void newAnimal()
 				keepGoing = false;
 				break;
 			case 1:
-				cout << "\nwriting pet test\n";
+				cout << "\nWriting...";
+				commitAnimal(OUTFILE, p);
+				cout << " It is written. Returning to the main meu.";
 
 				keepGoing = false;
 				break;
@@ -204,11 +204,13 @@ void commitAnimal(const char f[], pet p)
 
 	if (out)
 	{
-		//write the dang thing
+		out << p.type << ":" << p.breed << ":" << p.tempA << ":" << p.tempC << ":" << p.misc << ":" << p.miscP << ":" << p.miscC << endl;
 		
 		out.close();
 		out.clear();
 	}
+
+	//add pet to the array of structs
 	return;
 }
 
