@@ -114,7 +114,7 @@ bool gui()
 	int animalCount = 0;
 	readFile(OUTFILE, masterList, animalCount);
 
-	displayAll(masterList, animalCount);
+	//displayAll(masterList, animalCount);
 
 	/*	cout << "\nCount test: " << animalCount;
 		cout << "\nRead Test: " << masterList[0].type;
@@ -154,7 +154,7 @@ bool gui()
 void newAnimal(pet ml[], int &count)
 {
 	bool keepGoing = true;
-	cout << "\nNow, a new animal.";
+	cout << "\nNow, a new animal. Please do not leave fields blank.";
 
 	while (keepGoing)
 	{
@@ -201,7 +201,7 @@ void searchGui(pet ml[], int &c)
 	while (keepGoing)
 	{
 		guiIn (choice, "\nYou can display all animals, or search for a specific animal by type. Enter\n[0/else] to return to the main menu\n[1] to display all animals\n[2] to search by animal type\n>>>");
-		switch
+		switch (choice)
 		{
 			case 0:
 				keepGoing = false;
@@ -319,14 +319,58 @@ void displayAll(pet ml[], int count)
 //Search Master List for pets by type
 void searchType(pet ml[], int c)
 {
-	cout << "Animal types in the repository:\n";
-	for (int i=0; i<c; ++i)
-		cout << ml[i].type << endl;
+	char searchTerm[SMALL];
+	/*int choice;
+	bool keepGoing = true;
 
-	//more here
+	while (keepGoing)
+	guiIn(choice, "\nYou can do two kinds of searches: manual or by displaying all of a certain type. Both of these search the repository for an animal by TYPE. Enter\n[0/else] to go back a step\n[1] manual search\n[2] display all by a type\n>>>");
+	switch (choice)
+	{
+		case 0:
+			keepGoing = false;
+			break;
+		case 1:
+			//manual search
+			break;
+		case 2:
+			cout << "Animal types in the repository:\n";
+			for (int i=0; i<c; ++i)
+				cout << ml[i].type << endl;
+
+			cout << "Enter a number for ";
+			break;
+		default: 
+			keepGoing = false;
+			break;
+	}*/
+
+	cout << "\nThis is a manual search by animal TYPE. Enter your animal type search term, and be VERY specific.\n>>>";
+	cin.getline(searchTerm, SMALL);
+
+	cout << "\nMatches for search term " << searchTerm << endl << endl;
+	for (int i=0; i<c; ++i)
+	{
+		if (strcmp(searchTerm, ml[i].type))
+		{
+			cout << "Match " << (i+1) << ": " << endl 
+				<< "breed: " << ml[i].breed << endl
+				<< "friendly with animals: " << ml[i].tempA << endl
+				<< "friendly with children: " << ml[i].tempC << endl
+				<< "miscellaneous info: " << ml[i].misc << endl
+				<< "pros: " << ml[i].miscP << endl
+				<< "cons: " << ml[i].miscC << endl
+				<< endl;
+		}	
+	}
 
 	return;
 }
+
+
+
+
+
 
 
 
