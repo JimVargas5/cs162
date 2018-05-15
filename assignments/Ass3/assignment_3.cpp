@@ -34,11 +34,12 @@ void ignore(void);
 pet newPet(void);
 bool gui(void);
 void newAnimal(pet[], int&);
-void searchGui(void);
+void searchGui(pet [], int&);
 void guiIn(int&, const char[]);
 void commitAnimal(const char[], pet);
 void readFile(const char[], pet[], int&);
 void displayAll(pet[], int);
+void searchType(pet[], int);
 
 
 int main()
@@ -115,10 +116,10 @@ bool gui()
 
 	displayAll(masterList, animalCount);
 
-/*	cout << "\nCount test: " << animalCount;
-	cout << "\nRead Test: " << masterList[0].type;
-	cout << "\nAnother test: " << masterList[1].breed << " and " << masterList[1].miscC << endl;
-	*/
+	/*	cout << "\nCount test: " << animalCount;
+		cout << "\nRead Test: " << masterList[0].type;
+		cout << "\nAnother test: " << masterList[1].breed << " and " << masterList[1].miscC << endl;
+		*/
 
 	guiIn(choice, "\n\nWelcome to the pet database. You have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add a new animal\n[2] to search existing animals\n>>>");
 	switch (choice)
@@ -135,7 +136,7 @@ bool gui()
 				cout << "The master list is full, no more animals can be added to the database.\n";
 			break;
 		case 2:
-			searchGui();
+			searchGui(masterList, animalCount);
 			break;
 		default:
 			cout << "Quitting...\n";
@@ -192,9 +193,30 @@ void newAnimal(pet ml[], int &count)
 
 
 //Search interface
-void searchGui()
+void searchGui(pet ml[], int &c)
 {
-	cout << "\nSearch test\n";
+	int choice;
+	bool keepGoing = true;
+
+	while (keepGoing)
+	{
+		guiIn (choice, "\nYou can display all animals, or search for a specific animal by type. Enter\n[0/else] to return to the main menu\n[1] to display all animals\n[2] to search by animal type\n>>>");
+		switch
+		{
+			case 0:
+				keepGoing = false;
+				break;
+			case 1:
+				displayAll(ml, c);
+				break;
+			case 2:
+				searchType(ml, c);
+				break;
+			default:
+				keepGoing = false;
+				break;
+		}
+	}
 	return;
 }
 
@@ -224,12 +246,10 @@ void commitAnimal(const char f[], pet p)
 	if (out)
 	{
 		out << p.type << ":" << p.breed << ":" << p.tempA << ":" << p.tempC << ":" << p.misc << ":" << p.miscP << ":" << p.miscC << endl;
-		
+
 		out.close();
 		out.clear();
 	}
-
-	//add pet to the array of structs
 	return;
 }
 
@@ -248,7 +268,7 @@ void readFile(const char f[], pet ml[], int &count)
 		ml[i] = temp;
 		fileIn.get(ml[i].type, SMALL, ':');
 		fileIn.ignore(200, ':');
-		
+
 		fileIn.get(ml[i].breed, SMALL, ':');
 		fileIn.ignore(200, ':');
 
@@ -293,6 +313,23 @@ void displayAll(pet ml[], int count)
 	}
 	return;
 }
+
+
+
+//Search Master List for pets by type
+void searchType(pet ml[], int c)
+{
+	cout << "Animal types in the repository:\n";
+	for (int i=0; i<c; ++i)
+		cout << ml[i].type << endl;
+
+	//more here
+
+	return;
+}
+
+
+
 
 
 
