@@ -12,7 +12,7 @@
 #include <fstream>
 
 using namespace std;
-
+//TODO coulda would should implemented a 'read one specific animal function'
 
 const int BIG = 201;
 const int MED = 101;
@@ -30,10 +30,10 @@ struct pet
 	char miscC[MED];
 };
 
-void ignore(void);
+void ignoreBuffer(void);
 pet newPet(void);
 bool gui(void);
-void newAnimal(pet[], int&);
+void newAnimalGui(pet[], int&);
 void searchGui(pet [], int&);
 void guiIn(int&, const char[]);
 void commitAnimal(const char[], pet);
@@ -53,7 +53,7 @@ int main()
 
 
 //Convinient way to ignore the entire buffer
-void ignore()
+void ignoreBuffer()
 {
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	return;
@@ -67,38 +67,38 @@ pet newPet()
 	pet p;
 
 	cout << "\nWhat is this animal's type?\n>>>";
-	cin.getline(p.type, SMALL);
-	//ignore();
+	cin.get(p.type, SMALL, '\n');
+	ignoreBuffer();
 
 	cout << "What is this animal's breed?\n>>>";
-	cin.getline(p.breed, SMALL);
-	//ignore();
+	cin.get(p.breed, SMALL, '\n');
+	ignoreBuffer();
 
 	do
 	{
 		cout << "Is the animal friendly with other animals? Enter [Y/N]\n>>>";
 		p.tempA = cin.get();
-		ignore();
+		ignoreBuffer();
 	} while (toupper(p.tempA) != 'Y' && toupper(p.tempA) != 'N');
 
 	do
 	{
 		cout << "Is the animal friendly with children? Enter [Y/N]\n>>>";
 		p.tempC = cin.get();
-		ignore();
+		ignoreBuffer();
 	} while (toupper(p.tempC) != 'Y' && toupper(p.tempC) != 'N');
 
 	cout << "Miscellaneous information?\n>>>";
-	cin.getline(p.misc, BIG);
-	//ignore();
+	cin.get(p.misc, BIG), '\n';
+	ignoreBuffer();
 
 	cout << "Miscellaneous pros?\n>>>";
-	cin.getline(p.miscP, MED);
-	//ignore();
+	cin.get(p.miscP, MED, '\n');
+	ignoreBuffer();
 
 	cout << "Miscellaneous cons?\n>>>";
-	cin.getline(p.miscC, MED);
-	//ignore();
+	cin.getline(p.miscC, MED, '\n');
+	ignoreBuffer();
 
 	return p;
 }
@@ -114,13 +114,6 @@ bool gui()
 	int animalCount = 0;
 	readFile(OUTFILE, masterList, animalCount);
 
-	//displayAll(masterList, animalCount);
-
-	/*	cout << "\nCount test: " << animalCount;
-		cout << "\nRead Test: " << masterList[0].type;
-		cout << "\nAnother test: " << masterList[1].breed << " and " << masterList[1].miscC << endl;
-		*/
-
 	guiIn(choice, "\n\nWelcome to the pet database. You have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add a new animal\n[2] to search existing animals\n>>>");
 	switch (choice)
 	{
@@ -131,7 +124,7 @@ bool gui()
 		case 1: 
 			//if masterList not already full
 			if (animalCount < 30)
-				newAnimal(masterList, animalCount);
+				newAnimalGui(masterList, animalCount);
 			else
 				cout << "The master list is full, no more animals can be added to the database.\n";
 			break;
@@ -143,15 +136,13 @@ bool gui()
 			keepGoing = false;
 			break;
 	}
-
-
 	return keepGoing;
 }
 
 
 
 //Interface for creating a new animal
-void newAnimal(pet ml[], int &count)
+void newAnimalGui(pet ml[], int &count)
 {
 	bool keepGoing = true;
 	cout << "\nNow, a new animal. Please do not leave fields blank.";
@@ -185,14 +176,13 @@ void newAnimal(pet ml[], int &count)
 				break;
 		}
 	}
-
 	return;
 }
 
 
 
 
-//Search interface
+//Search general user interface
 void searchGui(pet ml[], int &c)
 {
 	int choice;
@@ -222,7 +212,7 @@ void searchGui(pet ml[], int &c)
 
 
 
-//Read in choice for GUI
+//Read in an integer choice for GUI
 void guiIn(int &c, const char s[])
 {
 	cout << s;
@@ -230,8 +220,8 @@ void guiIn(int &c, const char s[])
 		cin >> c;
 	else
 		c = 0;
-	//cout << "\nchoice test? " << c << endl;
-	ignore();
+	ignoreBuffer();
+
 	return;
 }
 
@@ -245,7 +235,7 @@ void commitAnimal(const char f[], pet p)
 
 	if (out)
 	{
-		out << p.type << ":" << p.breed << ":" << p.tempA << ":" << p.tempC << ":" << p.misc << ":" << p.miscP << ":" << p.miscC << endl;
+		out << endl << p.type << ":" << p.breed << ":" << p.tempA << ":" << p.tempC << ":" << p.misc << ":" << p.miscP << ":" << p.miscC;
 
 		out.close();
 		out.clear();
@@ -290,7 +280,6 @@ void readFile(const char f[], pet ml[], int &count)
 	}
 	count = i;
 	fileIn.close();
-
 	return;
 }
 
@@ -320,40 +309,15 @@ void displayAll(pet ml[], int count)
 void searchType(pet ml[], int c)
 {
 	char searchTerm[SMALL];
-	/*int choice;
-	bool keepGoing = true;
-
-	while (keepGoing)
-	guiIn(choice, "\nYou can do two kinds of searches: manual or by displaying all of a certain type. Both of these search the repository for an animal by TYPE. Enter\n[0/else] to go back a step\n[1] manual search\n[2] display all by a type\n>>>");
-	switch (choice)
-	{
-		case 0:
-			keepGoing = false;
-			break;
-		case 1:
-			//manual search
-			break;
-		case 2:
-			cout << "Animal types in the repository:\n";
-			for (int i=0; i<c; ++i)
-				cout << ml[i].type << endl;
-
-			cout << "Enter a number for ";
-			break;
-		default: 
-			keepGoing = false;
-			break;
-	}*/
-
 	cout << "\nThis is a manual search by animal TYPE. Enter your animal type search term, and be VERY specific.\n>>>";
 	cin.getline(searchTerm, SMALL);
 
 	cout << "\nMatches for search term " << searchTerm << endl << endl;
 	for (int i=0; i<c; ++i)
 	{
-		if (strcmp(searchTerm, ml[i].type))
+		if (strcmp(searchTerm, ml[i].type) == 0)
 		{
-			cout << "Match " << (i+1) << ": " << endl 
+			cout << "Animal " << (i+1) << ": " << endl 
 				<< "breed: " << ml[i].breed << endl
 				<< "friendly with animals: " << ml[i].tempA << endl
 				<< "friendly with children: " << ml[i].tempC << endl
@@ -363,7 +327,6 @@ void searchType(pet ml[], int c)
 				<< endl;
 		}	
 	}
-
 	return;
 }
 
