@@ -264,7 +264,7 @@ void readFile(const char f[], pet ml[], int &count)
 		fileIn.get(ml[i].miscP, MED, ':');
 		fileIn.ignore(200, ':');
 
-		fileIn.get(ml[i].miscC, MED, ':');
+		fileIn.get(ml[i].miscC, MED, '\n');
 		fileIn.ignore();
 		++i;
 	}
