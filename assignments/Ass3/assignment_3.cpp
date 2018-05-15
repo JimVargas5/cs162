@@ -33,10 +33,12 @@ struct pet
 void ignore(void);
 pet newPet(void);
 bool gui(void);
-void newAnimal(void);
+void newAnimal(pet[], int&);
 void searchGui(void);
 void guiIn(int&, const char[]);
 void commitAnimal(const char[], pet);
+void readFile(const char[], pet[], int&);
+void displayAll(pet[], int);
 
 
 int main()
@@ -107,6 +109,17 @@ bool gui()
 {
 	bool keepGoing = true;
 	int choice = 0;
+	pet masterList[30];
+	int animalCount = 0;
+	readFile(OUTFILE, masterList, animalCount);
+
+	displayAll(masterList, animalCount);
+
+/*	cout << "\nCount test: " << animalCount;
+	cout << "\nRead Test: " << masterList[0].type;
+	cout << "\nAnother test: " << masterList[1].breed << " and " << masterList[1].miscC << endl;
+	*/
+
 	guiIn(choice, "\n\nWelcome to the pet database. You have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add a new animal\n[2] to search existing animals\n>>>");
 	switch (choice)
 	{
@@ -115,7 +128,11 @@ bool gui()
 			keepGoing = false;
 			break;
 		case 1: 
-			newAnimal();
+			//if masterList not already full
+			if (animalCount < 30)
+				newAnimal(masterList, animalCount);
+			else
+				cout << "The master list is full, no more animals can be added to the database.\n";
 			break;
 		case 2:
 			searchGui();
@@ -133,7 +150,7 @@ bool gui()
 
 
 //Interface for creating a new animal
-void newAnimal()
+void newAnimal(pet ml[], int &count)
 {
 	bool keepGoing = true;
 	cout << "\nNow, a new animal.";
@@ -153,6 +170,8 @@ void newAnimal()
 			case 1:
 				cout << "\nWriting...";
 				commitAnimal(OUTFILE, p);
+				ml[count] = p;
+				++count;
 				cout << " It is written. Returning to the main meu.";
 
 				keepGoing = false;
@@ -211,6 +230,67 @@ void commitAnimal(const char f[], pet p)
 	}
 
 	//add pet to the array of structs
+	return;
+}
+
+
+
+//Read text file here
+void readFile(const char f[], pet ml[], int &count)
+{
+	ifstream fileIn;
+	fileIn.open(f);
+
+	int i = 0;
+	while (fileIn && !fileIn.eof())
+	{
+		pet temp;
+		ml[i] = temp;
+		fileIn.get(ml[i].type, SMALL, ':');
+		fileIn.ignore(200, ':');
+		
+		fileIn.get(ml[i].breed, SMALL, ':');
+		fileIn.ignore(200, ':');
+
+		fileIn >> ml[i].tempA;
+		fileIn.ignore(200, ':');
+
+		fileIn >> ml[i].tempC;
+		fileIn.ignore(200, ':');
+
+		fileIn.get(ml[i].misc, BIG, ':');
+		fileIn.ignore(200, ':');
+
+		fileIn.get(ml[i].miscP, MED, ':');
+		fileIn.ignore(200, ':');
+
+		fileIn.get(ml[i].miscC, MED, ':');
+		fileIn.ignore();
+		++i;
+	}
+	count = i;
+	fileIn.close();
+
+	return;
+}
+
+
+
+//Display everything in the Master List
+void displayAll(pet ml[], int count)
+{
+	for (int i=0; i<count; ++i)
+	{
+		cout << "\nAnimal " << (i+1) << ":\n"
+			<< "type: " << ml[i].type << endl
+			<< "breed: " << ml[i].breed << endl
+			<< "friendly with animals: " << ml[i].tempA << endl
+			<< "friendly with children: " << ml[i].tempC << endl
+			<< "miscellaneous info: " << ml[i].misc << endl
+			<< "pros: " << ml[i].miscP << endl
+			<< "cons: " << ml[i].miscC << endl
+			<< endl;
+	}
 	return;
 }
 
