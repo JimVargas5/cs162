@@ -34,6 +34,7 @@ bool gui(void);
 void newAnimal(void);
 void searchGui(void);
 void guiIn(int&, const char[]);
+void commitAnimal(const char[], pet);
 
 
 int main()
@@ -193,6 +194,23 @@ void guiIn(int &c, const char s[])
 	return;
 }
 
+
+
+//Commit an animal to the Master List
+void commitAnimal(const char f[], pet p)
+{
+	ofstream out;
+	out.open(f, ios::app);
+
+	if (out)
+	{
+		//write the dang thing
+		
+		out.close();
+		out.clear();
+	}
+	return;
+}
 
 
 
