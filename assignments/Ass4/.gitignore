@@ -1,0 +1,9 @@
+#gitignore for ass4
+
+
+*.exe
+*.swl
+*.swm
+*.swn
+*.swo
+*.swp
