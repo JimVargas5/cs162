@@ -1,0 +1,17 @@
+#gitignore for ass4
+
+
+*.exe
+<<<<<<< HEAD
+*.swo
+*.swp
+*.swn
+*.swm
+*.swl
+=======
+*.swl
+*.swm
+*.swn
+*.swo
+*.swp
+>>>>>>> e0b3c953bc92ed32c2fe18434f6aae39f69d2644
