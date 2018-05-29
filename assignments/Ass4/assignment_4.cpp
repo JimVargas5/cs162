@@ -10,16 +10,16 @@
 #include <limits>
 #include <cstring>
 #include <fstream>
+#include "classes.cpp"
 
 using namespace std;
-//TODO coulda would should implemented a 'read one specific animal function'
 
 const int BIG = 201;
 const int MED = 101;
 const int SMALL = 41;
 const char OUTFILE[] = "animals.txt";
 
-struct pet
+/*struct pet
 {
 	char type[SMALL];
 	char breed[SMALL];
@@ -28,7 +28,7 @@ struct pet
 	char misc[BIG];
 	char miscP[MED];
 	char miscC[MED];
-};
+};*/
 
 void ignoreBuffer(void);
 pet newPet(void);
@@ -38,8 +38,8 @@ void searchGui(pet [], int&);
 void guiIn(int&, const char[]);
 void commitAnimal(const char[], pet);
 void readFile(const char[], pet[], int&);
-void displayAll(pet[], int);
-void searchType(pet[], int);
+//void displayAll(pet[], int);
+//void searchType(pet[], int);
 
 
 int main()
@@ -129,7 +129,7 @@ bool gui()
 				cout << "The master list is full, no more animals can be added to the database.\n";
 			break;
 		case 2:
-			searchGui(masterList, animalCount);
+			//searchGui(masterList, animalCount);
 			break;
 		default:
 			cout << "Quitting...\n";
@@ -197,10 +197,10 @@ void searchGui(pet ml[], int &c)
 				keepGoing = false;
 				break;
 			case 1:
-				displayAll(ml, c);
+				//displayAll(ml, c);
 				break;
 			case 2:
-				searchType(ml, c);
+				//searchType(ml, c);
 				break;
 			default:
 				keepGoing = false;
@@ -286,7 +286,7 @@ void readFile(const char f[], pet ml[], int &count)
 
 
 //Display everything in the Master List
-void displayAll(pet ml[], int count)
+/*void displayAll(pet ml[], int count)
 {
 	for (int i=0; i<count; ++i)
 	{
@@ -301,12 +301,12 @@ void displayAll(pet ml[], int count)
 			<< endl;
 	}
 	return;
-}
+}*/
 
 
 
 //Search Master List for pets by type
-void searchType(pet ml[], int c)
+/*void searchType(pet ml[], int c)
 {
 	char searchTerm[SMALL];
 	cout << "\nThis is a manual search by animal TYPE. Enter your animal type search term, and be VERY specific.\n>>>";
@@ -328,7 +328,7 @@ void searchType(pet ml[], int c)
 		}	
 	}
 	return;
-}
+}*/
 
 
 
