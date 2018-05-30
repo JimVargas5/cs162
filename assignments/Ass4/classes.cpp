@@ -4,7 +4,7 @@
 //constructor
 animalList::animalList()
 {
-	int length = 0;
+	length;
 	
 	return;
 }
@@ -14,8 +14,8 @@ animalList::animalList()
 //real constructor
 animalList::animalList(int size)
 {
-	int length = size;
-	pet *list = new pet[size];
+	this->length = size;
+	pet * list = new pet[size];
 	return;
 }
 
@@ -25,8 +25,16 @@ animalList::animalList(int size)
 animalList::~animalList()
 {
 	for (int i=0; i<length; ++i)
-		delete list[i];
-
+    {
+        delete [] list[i]->type;
+        delete [] list[i]->breed;
+        delete list[i]->tempA;
+        delete list[i]->tempC;
+        delete [] list[i]->misc;
+        delete [] list[i]->miscP;
+        delete [] list[i]->miscC;
+        delete list[i];
+    }
 	return;
 }
 
@@ -58,6 +66,24 @@ void animalList::displayOne(int x)
 	
 	return;
 }
+
+
+
+//getter for length
+int animalList::getLength(void)
+{
+	return this->length;
+}
+
+
+
+//getter for list
+pet** animalList::getList(void)
+{
+	return list;
+}
+
+
 
 
 

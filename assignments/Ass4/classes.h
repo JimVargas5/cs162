@@ -27,10 +27,13 @@ class animalList
 {
 	public:
 		animalList();
-		animalList(int s);
+		animalList(int);
 		~animalList();
 		void displayAll();
-		void displayOne(int x);
+		void displayOne(int);
+
+		int getLength(void);
+		pet** getList(void);
 	private:
 		int length;
 		pet *list[];

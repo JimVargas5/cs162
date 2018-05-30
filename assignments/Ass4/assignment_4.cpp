@@ -10,7 +10,7 @@
 #include <limits>
 #include <cstring>
 #include <fstream>
-#include "classes.cpp"
+#include "classes.h"
 
 using namespace std;
 
@@ -33,11 +33,12 @@ const char OUTFILE[] = "animals.txt";
 void ignoreBuffer(void);
 pet newPet(void);
 bool gui(void);
-void newAnimalGui(pet[], int&);
+void newAnimalGui(const char []);
 void searchGui(pet [], int&);
 void guiIn(int&, const char[]);
 void commitAnimal(const char[], pet);
-void readFile(const char[], pet[], int&);
+//void readFile(const char[], pet[], int&);
+void prelim(const char[], int&);
 //void displayAll(pet[], int);
 //void searchType(pet[], int);
 
@@ -62,7 +63,7 @@ void ignoreBuffer()
 
 
 //Create a new pet with fields
-pet newPet()
+/*pet newPet()
 {
 	pet p;
 
@@ -101,7 +102,7 @@ pet newPet()
 	ignoreBuffer();
 
 	return p;
-}
+}*/
 
 
 
@@ -110,11 +111,15 @@ bool gui()
 {
 	bool keepGoing = true;
 	int choice = 0;
-	pet masterList[30];
-	int animalCount = 0;
-	readFile(OUTFILE, masterList, animalCount);
 
-	guiIn(choice, "\n\nWelcome to the pet database. You have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add a new animal\n[2] to search existing animals\n>>>");
+	int animalCount = 0;
+	prelim(OUTFILE, animalCount);
+
+	animalList masterList(animalCount);
+
+//	cout << "\nTest for count: " << animalCount << " : " << masterList.getLength() << endl;
+
+	guiIn(choice, "\nYou have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add new animals\n[2] to search existing animals\n>>>");
 	switch (choice)
 	{
 		case 0:
@@ -122,11 +127,8 @@ bool gui()
 			keepGoing = false;
 			break;
 		case 1: 
-			//if masterList not already full
-			if (animalCount < 30)
-				newAnimalGui(masterList, animalCount);
-			else
-				cout << "The master list is full, no more animals can be added to the database.\n";
+			//add some new animals
+            newAnimalGui("\nEnter how many animals you want to enter in this one go. You can come back and enter more animals in on the next loop. How many animals to add?\n>>>");
 			break;
 		case 2:
 			//searchGui(masterList, animalCount);
@@ -142,12 +144,18 @@ bool gui()
 
 
 //Interface for creating a new animal
-void newAnimalGui(pet ml[], int &count)
+void newAnimalGui(const char m[] )
 {
 	bool keepGoing = true;
-	cout << "\nNow, a new animal. Please do not leave fields blank.";
+    int animalCount = 0;
+    guiIn(animalCount, m);
 
-	while (keepGoing)
+    animalList additionList(animalCount);
+
+	cout << "\nNow, a new animal. Please do not leave fields blank.";
+    //pet p = newPet();
+
+	/*while (keepGoing)
 	{
 		pet p = newPet();
 		int choice;
@@ -175,7 +183,7 @@ void newAnimalGui(pet ml[], int &count)
 				keepGoing = false;
 				break;
 		}
-	}
+	}*/
 	return;
 }
 
@@ -183,7 +191,7 @@ void newAnimalGui(pet ml[], int &count)
 
 
 //Search general user interface
-void searchGui(pet ml[], int &c)
+/*void searchGui(pet ml[], int &c)
 {
 	int choice;
 	bool keepGoing = true;
@@ -208,7 +216,7 @@ void searchGui(pet ml[], int &c)
 		}
 	}
 	return;
-}
+}*/
 
 
 
@@ -222,39 +230,47 @@ void guiIn(int &c, const char s[])
 		c = 0;
 	ignoreBuffer();
 
+
 	return;
 }
 
 
 
 //Commit an animal to the Master List
-void commitAnimal(const char f[], pet p)
+/*void commitAnimal(const char f[], pet p)
 {
 	ofstream out;
 	out.open(f, ios::app);
 
 	if (out)
 	{
-		out << endl << p.type << ":" << p.breed << ":" << p.tempA << ":" << p.tempC << ":" << p.misc << ":" << p.miscP << ":" << p.miscC;
+		out << endl 
+		<< p.type << ":" 
+		<< p.breed << ":" 
+		<< p.tempA << ":" 
+		<< p.tempC << ":" 
+		<< p.misc << ":" 
+		<< p.miscP << ":" 
+		<< p.miscC;
 
 		out.close();
 		out.clear();
 	}
 	return;
-}
+}*/
 
 
 
-//Read text file here
-void readFile(const char f[], pet ml[], int &count)
+//Preliminary count of how many animals are already in the repository
+void prelim(const char f[], int &count)
 {
 	ifstream fileIn;
 	fileIn.open(f);
 
-	int i = 0;
+	//int i = 0;
 	while (fileIn && !fileIn.eof())
 	{
-		pet temp;
+		/*pet temp;
 		ml[i] = temp;
 		fileIn.get(ml[i].type, SMALL, ':');
 		fileIn.ignore(200, ':');
@@ -275,11 +291,15 @@ void readFile(const char f[], pet ml[], int &count)
 		fileIn.ignore(200, ':');
 
 		fileIn.get(ml[i].miscC, MED, '\n');
-		fileIn.ignore();
-		++i;
+		fileIn.ignore();*/
+		if (fileIn.get() == '\n')
+			++count;
+		//cout << "\ni test: " << i << endl;
+		//++i;
 	}
-	count = i;
+	//cout << "\ncount test when counting: " << count << endl;
 	fileIn.close();
+
 	return;
 }
 
