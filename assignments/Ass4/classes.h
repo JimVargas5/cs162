@@ -14,13 +14,13 @@ const int LARGE 201;*/
 
 struct pet
 {
-	char *type;
-	char *breed;
-	char *tempA;
-	char *tempC;
-	char *misc;
-	char *miscP;
-	char *miscC;
+    char *type = NULL;
+	char *breed = NULL;
+	char *tempA = NULL;
+	char *tempC = NULL;
+	char *misc = NULL;
+	char *miscP = NULL;
+	char *miscC = NULL;
 };
 
 class animalList

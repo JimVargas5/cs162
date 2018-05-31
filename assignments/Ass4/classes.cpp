@@ -26,15 +26,16 @@ animalList::~animalList()
 {
 	for (int i=0; i<length; ++i)
     {
-        delete [] list[i]->type;
-        delete [] list[i]->breed;
-        delete list[i]->tempA;
-        delete list[i]->tempC;
-        delete [] list[i]->misc;
-        delete [] list[i]->miscP;
-        delete [] list[i]->miscC;
-        delete list[i];
+        delete [] list[i].type;
+        delete [] list[i].breed;
+        delete list[i].tempA;
+        delete list[i].tempC;
+        delete [] list[i].misc;
+        delete [] list[i].miscP;
+        delete [] list[i].miscC;
     }
+    delete [] list;
+
 	return;
 }
 
@@ -55,13 +56,13 @@ void animalList::displayAll()
 void animalList::displayOne(int x)
 {
 	cout << "\nAnimal " << (x+1) << ":\n"
-		<< "type: " << list[x]->type << endl
-		<< "breed: " << list[x]->breed << endl
-		<< "friendly with animals: " << list[x]->tempA << endl
-		<< "friendly with children: " << list[x]->tempC << endl
-		<< "miscellaneous info: " << list[x]->misc << endl
-		<< "pros: " << list[x]->miscP << endl
-		<< "cons: " << list[x]->miscC << endl
+		<< "type: " << list[x].type << endl
+		<< "breed: " << list[x].breed << endl
+		<< "friendly with animals: " << list[x].tempA << endl
+		<< "friendly with children: " << list[x].tempC << endl
+		<< "miscellaneous info: " << list[x].misc << endl
+		<< "pros: " << list[x].miscP << endl
+		<< "cons: " << list[x].miscC << endl
 		<< endl;
 	
 	return;
@@ -80,7 +81,7 @@ int animalList::getLength(void)
 //getter for list
 pet** animalList::getList(void)
 {
-	return list;
+	return &list;
 }
 
 

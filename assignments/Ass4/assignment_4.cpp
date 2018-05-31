@@ -63,15 +63,24 @@ void ignoreBuffer()
 
 
 //Create a new pet with fields
-/*pet newPet()
+pet newPet()
   {
   pet p;
+    char big[BIG] = {0};
+    char med[MED] = {0};
+    char small[SMALL] = {0};
 
   cout << "\nWhat is this animal's type?\n>>>";
-  cin.get(p.type, SMALL, '\n');
+  cin.get(small, SMALL, '\n');
   ignoreBuffer();
 
-  cout << "What is this animal's breed?\n>>>";
+  p.type = new char[strlen(small)];
+
+  strcpy(p.type, small);
+
+  cout << "\nan assignment test: " << strlen(p.type) << endl;
+
+  /*cout << "What is this animal's breed?\n>>>";
   cin.get(p.breed, SMALL, '\n');
   ignoreBuffer();
 
@@ -100,9 +109,9 @@ void ignoreBuffer()
   cout << "Miscellaneous cons?\n>>>";
   cin.getline(p.miscC, MED, '\n');
   ignoreBuffer();
-
+*/
   return p;
-  }*/
+  }
 
 
 
@@ -118,23 +127,27 @@ bool gui()
     animalList masterList(animalCount);
 
     //cout << "\nTest for count: " << animalCount << " : " << masterList.getLength() << endl;
+    
+    cout << "\n\nWelcome. There are currently " << masterList.getLength() << " animal(s) already on record.\n";
 
     choice = guiIn("\nYou have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add new animals\n[2] to search existing animals\n>>>");
 
+    //cout << "\nmanually enter a switch choice\n";
+    //ignoreBuffer();
     //cin >> choice;
     //ignoreBuffer();
-    cout << "\nchoice test: " << choice << endl;
+    //cout << "\nchoice test: " << choice << " this happens right before the switch!\n";
 
     switch (choice)
     {
         case 0:
             cout << "Quitting...\n";
-            //keepGoing = false;
+            keepGoing = false;
             break;
         case 1: 
             //add some new animals
-            cout << "new animal\n";
-            //newAnimalGui();
+            //cout << "new animal\n";
+            newAnimalGui();
             break;
         case 2:
             //searchGui(masterList, animalCount);
@@ -142,10 +155,10 @@ bool gui()
             break;
         default:
             cout << "Quitting...\n";
-            //keepGoing = false;
+            keepGoing = false;
             break;
     }
-    cout << "did I get past the switch?";
+    //cout << "did I get past the switch?";
     return keepGoing;
 }
 
@@ -155,18 +168,18 @@ bool gui()
 void newAnimalGui(void)
 {
     bool keepGoing = true;
-    //int addCount = guiIn("\nEnter how many animals you want to enter in this one go. You can come back and enter more animals in on the next loop. How many animals to add?\n>>>");
-    int x;
-    cout << "\nEnter a number\n";
-    cin >> x;
-    ignoreBuffer();
-    cout << "here's the number: " << x << endl;
+    int addCount = guiIn("\nEnter how many animals you want to enter in this one go. You can come back and enter more animals in on the next loop. How many animals to add?\n>>>");
+    //int x;
+    //cout << "\nEnter a number\n";
+    //cin >> x;
+    //ignoreBuffer();
+    cout << "Here's the number: " << addCount << endl;
 
-    cout << "\nDid I make it out alive?\n";
-    //animalList additionList(addCount);
+    //cout << "\nDid I make it out alive?\n";
+    animalList additionList(addCount);
 
     cout << "\nNow, a new animal. Please do not leave fields blank.";
-    //pet p = newPet();
+    pet p = newPet();
 
     /*while (keepGoing)
       {
@@ -197,6 +210,10 @@ void newAnimalGui(void)
       break;
       }
       }*/
+    
+    cout << "\ndestroying additionList... \n";
+    additionList.~animalList();
+
     return;
 }
 
@@ -238,25 +255,25 @@ int guiIn(const char s[])
 {
     int x = 0;
     cout << s;
-    cout << "\nseg test 1\n";
+    //cout << "\nseg test 1\n";
     if (isdigit(cin.peek()))
     {
-        cout << "\nseg test if\n";
+        //cout << "\nseg test if\n";
         cin >> x;
-        cout <<"\nx test: " << x;
-        cout << "\nseg test if 2\n";
+        //cout <<"\nx test: " << x;
+        //cout << "\nseg test if 2\n";
     }
     else
     {
-        cout << "\nseg test else\n";
+        //cout << "\nseg test else\n";
         x = 0;
-        cout << "\nseg test else 2\n";
+        //cout << "\nseg test else 2\n";
     }
-    cout << "\nseg test 2\n";
-    cin.clear();
+    //cout << "\nseg test 2\n";
+    //cin.clear();
     ignoreBuffer();
     //cin.ignore(100, '\n');
-    cout << "\nseg test 3\n";
+    //cout << "\nseg test 3\n";
 
     return x;
 }
