@@ -36,7 +36,7 @@ class animalList
 		pet** getList(void);
 	private:
 		int length;
-		pet *list[];
+		pet *list = NULL;
 };
 
 

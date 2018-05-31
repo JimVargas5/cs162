@@ -14,8 +14,8 @@ animalList::animalList()
 //real constructor
 animalList::animalList(int size)
 {
-	this->length = size;
-	pet * list = new pet[size];
+	length = size;
+    list = new pet[size];
 	return;
 }
 
