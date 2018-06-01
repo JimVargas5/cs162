@@ -2,11 +2,10 @@
 
 
 *.exe
-*.swo
-*.swp
-*.swn
-*.swm
-*.swl
+*.swh
+*.swi
+*.swj
+*.swk
 *.swl
 *.swm
 *.swn

@@ -41,6 +41,15 @@ animalList::~animalList()
 
 
 
+//copy constructor
+/*animalList::animalList(const animalList & other):
+    list(other.getList()), length(other.getLength)
+{
+    return;
+}*/
+
+
+
 //show all of the pets
 void animalList::displayAll()
 {

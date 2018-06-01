@@ -29,6 +29,8 @@ class animalList
 		animalList();
 		animalList(int);
 		~animalList();
+        //animalList(const animalList& other);
+
 		void displayAll();
 		void displayOne(int);
 

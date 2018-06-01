@@ -1,6 +1,6 @@
 //Jim Vargas
-//CS162 Programming Assignment 3
-//5/12/2018
+//CS162 Programming Assignment 4
+//5/31/2018
 
 //This program will function as a sort of 'proof of concept' databse via command line prompts and saving data to text documents. 
 //The specific theme of this primitive database will involve pets; a user, wishing to store and retrieve information about various animals will be able to use this program to do so.
@@ -41,6 +41,8 @@ void commitAnimal(const char [], pet);
 void prelim(const char [], int&);
 //void displayAll(pet[], int);
 //void searchType(pet[], int);
+//void dynamicAlloc(char * a[], char b[], int);
+void clearLetters(char []);
 
 
 int main()
@@ -64,54 +66,61 @@ void ignoreBuffer()
 
 //Create a new pet with fields
 pet newPet()
-  {
-  pet p;
+{
+    pet p;
     char big[BIG] = {0};
     char med[MED] = {0};
     char small[SMALL] = {0};
+    char a, c;
 
-  cout << "\nWhat is this animal's type?\n>>>";
-  cin.get(small, SMALL, '\n');
-  ignoreBuffer();
+    cout << "\nWhat is this animal's type?\n>>>";
+    cin.get(small, SMALL, '\n');
+    ignoreBuffer();
+    p.type = new char[strlen(small)];
+    strcpy(p.type, small);
 
-  p.type = new char[strlen(small)];
+    cout << "What is this animal's breed?\n>>>";
+    cin.get(med, SMALL, '\n');
+    ignoreBuffer();
+    p.breed = new char[strlen(med)];
+    strcpy(p.breed, med);
 
-  strcpy(p.type, small);
+    do
+    {
+        cout << "Is the animal friendly with other animals? Enter [Y/N]\n>>>";
+        a = cin.get();
+        ignoreBuffer();
+        p.tempA = &a;
+    } while (toupper(a) != 'Y' && toupper(a) != 'N');
 
-  cout << "\nan assignment test: " << strlen(p.type) << endl;
+    do
+    {
+        cout << "Is the animal friendly with children? Enter [Y/N]\n>>>";
+        c = cin.get();
+        ignoreBuffer();
+        p.tempC = &c;
+    } while (toupper(c) != 'Y' && toupper(c) != 'N');
 
-  /*cout << "What is this animal's breed?\n>>>";
-  cin.get(p.breed, SMALL, '\n');
-  ignoreBuffer();
+    cout << "Miscellaneous information?\n>>>";
+    cin.get(big, BIG, '\n');
+    ignoreBuffer();
+    p.misc = new char[strlen(big)];
+    strcpy(p.misc, big);
 
-  do
-  {
-  cout << "Is the animal friendly with other animals? Enter [Y/N]\n>>>";
-  p.tempA = cin.get();
-  ignoreBuffer();
-  } while (toupper(p.tempA) != 'Y' && toupper(p.tempA) != 'N');
+    cout << "Miscellaneous pros?\n>>>";
+    cin.get(med, MED, '\n');
+    ignoreBuffer();
+    p.miscC = new char[strlen(med)];
+    strcpy(p.miscC, big);
 
-  do
-  {
-  cout << "Is the animal friendly with children? Enter [Y/N]\n>>>";
-  p.tempC = cin.get();
-  ignoreBuffer();
-  } while (toupper(p.tempC) != 'Y' && toupper(p.tempC) != 'N');
+    cout << "Miscellaneous cons?\n>>>";
+    cin.get(med, MED, '\n');
+    ignoreBuffer();
+    p.miscP = new char[strlen(med)];
+    strcpy(p.miscC, med);
 
-  cout << "Miscellaneous information?\n>>>";
-  cin.get(p.misc, BIG), '\n';
-  ignoreBuffer();
-
-  cout << "Miscellaneous pros?\n>>>";
-  cin.get(p.miscP, MED, '\n');
-  ignoreBuffer();
-
-  cout << "Miscellaneous cons?\n>>>";
-  cin.getline(p.miscC, MED, '\n');
-  ignoreBuffer();
-*/
-  return p;
-  }
+    return p;
+}
 
 
 
@@ -127,8 +136,9 @@ bool gui()
     animalList masterList(animalCount);
 
     //cout << "\nTest for count: " << animalCount << " : " << masterList.getLength() << endl;
-    
+
     cout << "\n\nWelcome. There are currently " << masterList.getLength() << " animal(s) already on record.\n";
+    masterList.displayAll();
 
     choice = guiIn("\nYou have a few options. Enter a number for the corresponding option to your choice:\n[0/else] to quit\n[1] to add new animals\n[2] to search existing animals\n>>>");
 
@@ -178,39 +188,54 @@ void newAnimalGui(void)
     //cout << "\nDid I make it out alive?\n";
     animalList additionList(addCount);
 
-    cout << "\nNow, a new animal. Please do not leave fields blank.";
-    pet p = newPet();
+    //cout << "\nNow, a new animal. Please do not leave fields blank.";
+    //pet p = newPet();
 
-    /*while (keepGoing)
-      {
-      pet p = newPet();
-      int choice;
+    while (keepGoing)
+    {
+        for (int i=0; i<additionList.getLength(); ++i)
+        {
+            cout << "\nAnimal number " << i+1 << ":";
+            //&(  (*(additionList.getList()))[i]  ) = new pet;
+            (*(additionList.getList()))[i] = newPet();
+            /*memmove(
+                &(
+                    (*(additionList.getList()))[i]
+                ), &p, sizeof(p)
+            );*/
+            
+            cout << "\nseg test \n";
+        }
+        //int choice;
 
-      cout << "\nAnimal in queue: " << p.breed << endl;
-      guiIn(choice, "Do you want to commit this animal to the pet repository? Enter\n[0/else] to return to the main menu\n[1] to commit animal\n[2] to try again\n>>>");
-      switch (choice)
-      {
-      case 0:
-      keepGoing = false;
-      break;
-      case 1:
-      cout << "\nWriting...";
-      commitAnimal(OUTFILE, p);
-      ml[count] = p;
-      ++count;
-      cout << " It is written. Returning to the main meu.";
+        cout << "\nThere are now animals in queue: " << additionList.getLength() << endl;
+        int choice = guiIn("Do you want to commit these animals to the pet repository? Enter\n[0/else] to return to the main menu\n[1] to commit animals\n[2] to try again\n>>>");
+        switch (choice)
+        {
+            case 0:
+                keepGoing = false;
+                break;
+            case 1:
+                cout << "\nWriting...\nAnimals committed:";
+                //for (int i=0; i<additionList.getLength(); ++i)
+                  //  cout << (*(additionList.getList()))[i].breed << endl;
+                //commitAnimal(OUTFILE, p);
+                //ml[count] = p;
+                //++count;
 
-      keepGoing = false;
-      break;
-      case 2:
-      cout << "Doing it over...";
-      break;
-      default:
-      keepGoing = false;
-      break;
-      }
-      }*/
-    
+                cout << " It is written. Returning to the main meu.";
+
+                keepGoing = false;
+                break;
+            case 2:
+                cout << "Doing it over...";
+                break;
+            default:
+                keepGoing = false;
+                break;
+        }
+    }
+
     cout << "\ndestroying additionList... \n";
     additionList.~animalList();
 
@@ -395,6 +420,22 @@ void prelim(const char f[], int &count)
   }*/
 
 
+
+
+//Dynamically allocate an array of characters
+void dynamicAlloc(char *given[], char dest[], int max)
+{
+    //given is the temporary string, dest is the string to dynamically allocate
+    cin.get(*given, max, '\n');
+    ignoreBuffer();
+
+    dest = new char[strlen(*given)];
+
+    for (int i=0; i<strlen(*given); ++i)
+        given[i] = 0;
+
+    return;
+}
 
 
 
