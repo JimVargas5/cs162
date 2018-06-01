@@ -71,7 +71,7 @@ pet newPet()
     char big[BIG] = {0};
     char med[MED] = {0};
     char small[SMALL] = {0};
-    char a, c;
+    char anA, anC;
 
     cout << "\nWhat is this animal's type?\n>>>";
     cin.get(small, SMALL, '\n');
@@ -88,18 +88,18 @@ pet newPet()
     do
     {
         cout << "Is the animal friendly with other animals? Enter [Y/N]\n>>>";
-        a = cin.get();
+        anA = cin.get();
         ignoreBuffer();
-        p.tempA = &a;
-    } while (toupper(a) != 'Y' && toupper(a) != 'N');
+        p.tempA = &anA;
+    } while (toupper(anA) != 'Y' && toupper(anA) != 'N');
 
     do
     {
         cout << "Is the animal friendly with children? Enter [Y/N]\n>>>";
-        c = cin.get();
+        anC = cin.get();
         ignoreBuffer();
-        p.tempC = &c;
-    } while (toupper(c) != 'Y' && toupper(c) != 'N');
+        p.tempC = &anC;
+    } while (toupper(anC) != 'Y' && toupper(anC) != 'N');
 
     cout << "Miscellaneous information?\n>>>";
     cin.get(big, BIG, '\n');
@@ -395,7 +395,7 @@ void prelim(const char f[], int &count)
 
 
 //Search Master List for pets by type
-/*void searchType(pet ml[], int c)
+void searchType(pet ml[], int c)
   {
   char searchTerm[SMALL];
   cout << "\nThis is a manual search by animal TYPE. Enter your animal type search term, and be VERY specific.\n>>>";
@@ -417,13 +417,12 @@ void prelim(const char f[], int &count)
   }	
   }
   return;
-  }*/
-
+  }
 
 
 
 //Dynamically allocate an array of characters
-void dynamicAlloc(char *given[], char dest[], int max)
+/*void dynamicAlloc(char *given[], char dest[], int max)
 {
     //given is the temporary string, dest is the string to dynamically allocate
     cin.get(*given, max, '\n');
@@ -435,7 +434,7 @@ void dynamicAlloc(char *given[], char dest[], int max)
         given[i] = 0;
 
     return;
-}
+}*/
 
 
 
