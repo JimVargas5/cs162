@@ -10,9 +10,9 @@
 *.swm
 *.swn
 *.swo
-*swp
+*.swp
 
-
+*.tar
 
 
 
