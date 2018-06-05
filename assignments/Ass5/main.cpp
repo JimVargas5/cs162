@@ -13,6 +13,16 @@ int main()
 {
     cout << "\nmain test\n";
     //ignoreBuffer();
+
+    node * head = newQuestion();
+    cout << head->q->topic << endl;
+    cout << "\nall done\n";
+    ignoreBuffer();
+    cin.clear();
+
+    
+    delete head;
+
     return 0;
 }
 

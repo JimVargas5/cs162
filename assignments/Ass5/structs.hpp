@@ -1,6 +1,7 @@
 // Jim Vargas
 
 
+const int MAX = 100;
 
 struct question
 {
@@ -20,7 +21,7 @@ struct node
 
 
 void ignoreBuffer(void);
-
+node *newQuestion(void);
 
 
 
