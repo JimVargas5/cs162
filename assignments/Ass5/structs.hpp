@@ -15,6 +15,7 @@ struct question
 struct node
 {
     node * next;
+    node * previous;
     question * q;
 };
 
@@ -22,6 +23,9 @@ struct node
 
 void ignoreBuffer(void);
 node *newQuestion(void);
+node *newQuestion(const char t[], const char l[], const char p[], node *n, node *prev);
+
+
 
 
 
