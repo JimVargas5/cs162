@@ -88,6 +88,54 @@ node *newQuestion(
 
 
 
+//Connect two given nodes
+void connectNodes(node * first, node * second)
+{
+    first->next = second;
+    second->next = NULL;
+    second->previous = first;
+
+
+    return;
+}
+
+
+
+//Go through a full quiz over all questions in the LLL
+void fullQuiz(node * head)
+{
+    node * current = head;
+    int counter = 1;
+    while (current != NULL)
+    {
+        cout << "\nQuestion " << counter << ":";
+        displayQuestion(current);
+        current = current->next;
+        counter++;
+    }
+    cout << "\nEnd of test.\n";
+
+
+    return;
+}
+
+
+
+//Displays one question
+void displayQuestion (node * given)
+{
+    cout << "\nTopic: " << given->q->topic
+        << "\nSee in the book: " << given->q->location
+        << endl << given->q->prompt << endl;
+
+
+    return;
+}
+
+
+
+
+
 
 
 
