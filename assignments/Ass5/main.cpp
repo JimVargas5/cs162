@@ -16,7 +16,7 @@
 using namespace std;
 
 
-bool gui(void);
+bool gui(node *);
 void guiIn(int&, const char[]);
 node * generateSampleLLL(void);
 void searchToKill(node*);
@@ -24,17 +24,10 @@ void searchToKill(node*);
 
 int main()
 {
-    /*
-    node * tempHead = newQuestion("poop", "nowhere", "how do you spell poop", NULL, NULL);
-    node * tempSecond = newQuestion("test", "nowhere", "how do you spell test", NULL, NULL);
-    connectNodes(tempHead, tempSecond);
+    node * seed = generateSampleLLL();
 
-    cout << "\ntest for null capabilities " << tempHead->q->topic << endl;
-    cout << "\n here's johnny " << tempHead->next->q->prompt << endl;
-    */
-
-    bool gui();
-    while (gui());
+    //bool gui(seed);
+    while (gui(seed));
 
     return 0;
 }
@@ -42,11 +35,12 @@ int main()
 
 
 //Main General User Interface
-bool gui()
+bool gui(node * seed)
 {
     bool keepGoing = true;
     int choice = 0;
-    node * head = generateSampleLLL();
+    
+    node * head = seed;
 
     guiIn(choice, 
             "\n\nWelcome to this Linear-Linked-List quiz repository. You have a few options.Enter a number corresponding to your choice:\n[0/else] to quit\n[1] to delete a question\n[2] to make a new question\n[3] to search questions by topic\n[4] to display the contents of all questions\n>>>"
