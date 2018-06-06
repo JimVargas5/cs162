@@ -134,6 +134,46 @@ void displayQuestion (node * given)
 
 
 
+//Remove given node from the list
+void killQuestion(node * given)
+{
+    //To way traversibility
+
+    //this case is for the middle
+    if (given->previous !=NULL  &&  given->next !=NULL)
+    {
+        cout << "\nseg test swapping\n";
+        given->previous->next = given->next;
+        given->next->previous = given->previous;
+        given->next = NULL;
+        given->previous = NULL;
+    }
+
+    cout << "\nthe previous prompt: " << given->previous->q->prompt
+        << "\nthe previous' next's prompt: " << given->previous->next->q->prompt << endl;
+
+    //this case is for the end
+
+
+    //this case is for the beginning
+
+    /*
+    cout << "\nseg test deleting\n";
+
+    delete [] given.q->topic;
+    delete [] given.q->location;
+    delete [] given.q->prompt;
+
+    delete given.q;
+    //delete given;
+    */
+
+    return;
+}
+
+
+
+
 
 
 

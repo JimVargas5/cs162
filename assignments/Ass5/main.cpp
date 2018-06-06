@@ -19,6 +19,7 @@ using namespace std;
 bool gui(void);
 void guiIn(int&, const char[]);
 node * generateSampleLLL(void);
+void searchToKill(node*);
 
 
 int main()
@@ -57,9 +58,9 @@ bool gui()
             cout << "Quitting...\n";
             keepGoing = false;
             break;
-        //random question
+        //delete a question
         case 1:
-            cout << "\nrando questo\n";
+            searchToKill(head);
             break;
         //new question
         case 2:
@@ -116,6 +117,38 @@ node * generateSampleLLL(void)
     
     return head;
 }
+ 
+
+
+//Go through the list to delete one node
+void searchToKill(node * head)
+{
+    node * current = head;
+    int choice = 0;
+    bool killedOne = false;
+    while (current != NULL  && !killedOne)
+    {
+        displayQuestion(current);
+        guiIn(choice, "\nDelete this question?\n[0/else] to keep\n[1] to delete\n>>>");
+        //since both previous and next are kept track of, these will be preserved even though
+        //I am iterating through the list with 'current'
+        if (choice == 1)
+        {
+            cout << "\nbefore function call\n";
+            killQuestion(current);
+            //cout << "\nafter function call\n";
+            killedOne = true;
+        }
+        if (!killedOne)
+            current = current->next;
+    }
+    cout << "\nDeleted.";
+
+
+    return;
+}
+
+
 
 
 
