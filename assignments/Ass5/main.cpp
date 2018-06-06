@@ -107,12 +107,13 @@ void guiIn(int &c, const char s[])
 //This will allow the user to start with a test instead of having to make some questions.
 node * generateSampleLLL(void)
 {
-    node * head = newQuestion("A there is no topic", "you can't find this anywhere in the book", "How is the word 'poop' spelled?", NULL, NULL);
-    node * second = newQuestion("B another test", "good luck kid", "This is to demonstrate functionality not meet design detail specifics.", NULL, NULL);
-    node * third = newQuestion("B another test", "read my mind --(the creator)", "Actual quesitons can be implemented or added by the user later. There is functionality for this.", NULL, NULL);
+    node * head = newQuestion("A", "you can't find this anywhere in the book", "How is the word 'poop' spelled?", NULL, NULL);
+    node * second = newQuestion("B", "good luck kid", "This is to demonstrate functionality not meet design detail specifics.", NULL, NULL);
+    node * third = newQuestion("C", "read my mind --(the creator)", "Actual quesitons can be implemented or added by the user later. There is functionality for this.", NULL, NULL);
 
     connectNodes(head, second);
     connectNodes(second, third);
+    //connectNodes(third, head);
 
     
     return head;
@@ -134,19 +135,34 @@ void searchToKill(node * head)
         //I am iterating through the list with 'current'
         if (choice == 1)
         {
-            cout << "\nbefore function call\n";
-            killQuestion(current);
-            //cout << "\nafter function call\n";
+            cout << "\nbefore the thing\n";
+
+            current->previous->next = current->next;
+            current->next->previous = current->previous;
+            //current->next = NULL;
+            //current->previous = NULL;
+
+            cout << endl << current->previous->next->q->topic << endl
+                << current->next->previous->q->topic << endl;
+
+            current->next = NULL;
+            current->previous = NULL;
+
             killedOne = true;
         }
         if (!killedOne)
             current = current->next;
+        else
+            cout << "\nDeleted\n";
     }
-    cout << "\nDeleted.";
-
 
     return;
 }
+
+
+
+
+
 
 
 
