@@ -28,6 +28,7 @@ void connectNodes(node *, node *);
 void displayQuestion(node*);
 void fullQuiz(node*);
 void killQuestion(node*);
+void washSingle(node *);
 
 
 

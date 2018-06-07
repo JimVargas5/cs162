@@ -61,18 +61,20 @@ node *newQuestion()
 
 //New Question, to append somewhere in an established LLL
 node *newQuestion(
-    const char givenTopic[],
-    const char givenLocation[],
-    const char givenPrompt[],
-    node *givenNext, node *givenPrevious
-    )
+        const char givenTopic[],
+        const char givenLocation[],
+        const char givenPrompt[],
+        node *givenNext, node *givenPrevious
+        )
 {
+    //pointer fields
     node * newOne = new node;
     question * newQ = new question;
     newOne->q = newQ;
     newOne->next = givenNext;
     newOne->previous = givenPrevious;
 
+    //question specific fields
     newOne->q->topic = new char[strlen(givenTopic)+1];
     strcpy(newOne->q->topic, givenTopic);
 
@@ -104,17 +106,20 @@ void connectNodes(node * first, node * second)
 //Go through a full quiz over all questions in the LLL
 void fullQuiz(node * head)
 {
-    node * current = head;
-    int counter = 1;
-    while (current != NULL)
+    if (head!=NULL)
     {
-        cout << "\nQuestion " << counter << ":";
-        displayQuestion(current);
-        current = current->next;
-        counter++;
-    }
-    cout << "\nEnd of test.\n";
-
+        node * current = head;
+        int counter = 1;
+        while (current != NULL)
+        {
+            cout << "\nQuestion " << counter << ":";
+            displayQuestion(current);
+            current = current->next;
+            counter++;
+        }
+        cout << "\nEnd of test.\n";
+    } else
+        cout << "\nThe list is empty.\n";
 
     return;
 }
@@ -142,36 +147,65 @@ void killQuestion(node * given)
     //this case is for the middle
     if (given->previous !=NULL  &&  given->next !=NULL)
     {
-        cout << "\nseg test swapping\n";
+        //reconnect
         given->previous->next = given->next;
         given->next->previous = given->previous;
+
+        //disconnect
         given->next = NULL;
         given->previous = NULL;
+
+        washSingle(given);
     }
 
-    cout << "\nthe previous prompt: " << given->previous->q->prompt
-        << "\nthe previous' next's prompt: " << given->previous->next->q->prompt << endl;
-
     //this case is for the end
+    else if (given->previous !=NULL && given->next ==NULL)
+    {
+        given->previous->next = NULL;
+        given->previous = NULL;
 
+        washSingle(given);
+    }
 
     //this case is for the beginning
+    else if (given->previous ==NULL && given->next !=NULL)
+    {
+        node * temp = given->next;
 
-    /*
-    cout << "\nseg test deleting\n";
+        temp->previous = NULL;
+        //given->next->previous = NULL;
+        washSingle(given);
 
-    delete [] given.q->topic;
-    delete [] given.q->location;
-    delete [] given.q->prompt;
+        given = temp;
+        //washSingle(temp);
+    }
 
-    delete given.q;
-    //delete given;
-    */
+    //this case is for if there's only a head node
+    else if(given->previous ==NULL && given->next ==NULL)
+        washSingle(given);
+
+    //remaining case is a null node, or something very spooky
+    else
+        cout << "This is a null node\n";
 
     return;
 }
 
 
+
+//clears all of the dynamic memory of a single node
+void washSingle(node * given)
+{
+    delete [] given->q->topic;
+    delete [] given->q->location;
+    delete [] given->q->prompt;
+
+    delete given->q;
+    delete given;
+
+
+    return;
+}
 
 
 

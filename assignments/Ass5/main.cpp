@@ -26,7 +26,6 @@ int main()
 {
     node * seed = generateSampleLLL();
 
-    //bool gui(seed);
     while (gui(seed));
 
     return 0;
@@ -43,7 +42,7 @@ bool gui(node * seed)
     node * head = seed;
 
     guiIn(choice, 
-            "\n\nWelcome to this Linear-Linked-List quiz repository. You have a few options.Enter a number corresponding to your choice:\n[0/else] to quit\n[1] to delete a question\n[2] to make a new question\n[3] to search questions by topic\n[4] to display the contents of all questions\n>>>"
+            "\n\n\nWelcome to this Linear-Linked-List quiz repository. You have a few options. Enter a number corresponding to your choice:\n[0/else] to quit\n[1] to delete a question\n[2] to make a new question\n[3] to search questions by topic\n[4] to display the contents of all questions\n>>>"
          );
 
     switch(choice)
@@ -66,7 +65,11 @@ bool gui(node * seed)
             break;
         //display all questions
         case 4:
-            fullQuiz(head);
+            cout << "\nget to here\n";
+            if (head!=NULL)
+                fullQuiz(head);
+            else
+                cout << "\nThe list is emptly.\n";
             break;
         default:
             cout << "Quitting...\n";
@@ -121,27 +124,17 @@ void searchToKill(node * head)
     node * current = head;
     int choice = 0;
     bool killedOne = false;
+
     while (current != NULL  && !killedOne)
     {
         displayQuestion(current);
         guiIn(choice, "\nDelete this question?\n[0/else] to keep\n[1] to delete\n>>>");
+
         //since both previous and next are kept track of, these will be preserved even though
         //I am iterating through the list with 'current'
         if (choice == 1)
         {
-            cout << "\nbefore the thing\n";
-
-            current->previous->next = current->next;
-            current->next->previous = current->previous;
-            //current->next = NULL;
-            //current->previous = NULL;
-
-            cout << endl << current->previous->next->q->topic << endl
-                << current->next->previous->q->topic << endl;
-
-            current->next = NULL;
-            current->previous = NULL;
-
+            killQuestion(current);
             killedOne = true;
         }
         if (!killedOne)
