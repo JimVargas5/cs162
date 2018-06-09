@@ -1,5 +1,5 @@
 // Jim Vargas
-
+// this kind of node has forward and backwards traversibility
 
 const int MAX = 100;
 
@@ -31,7 +31,7 @@ void killQuestion(node*, node*);
 void washSingle(node *);
 void newQProcedure(node*);
 void commitQ(node*, node*);
-
+void searchProcedure(node *);
 
 
 

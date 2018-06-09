@@ -19,12 +19,7 @@ using namespace std;
 bool gui(node *&);
 void guiIn(int&, const char[]);
 node * generateSampleLLL(void);
-<<<<<<< HEAD
 void searchToKill(node*, node *);
-=======
-void searchToKill(node*);
-//void newQProcedure(node*);
->>>>>>> 195f408c4a4f05f95c76dbd1ff955f3a13428321
 
 
 int main()
@@ -75,7 +70,7 @@ bool gui(node * &seed)
             break;
         //search questions by topic
         case 3:
-            cout << "\nsearch\n";
+            searchProcedure(head);
             break;
         //display all questions
         case 4:
@@ -117,9 +112,9 @@ void guiIn(int &c, const char s[])
 //This will allow the user to start with a test instead of having to make some questions.
 node * generateSampleLLL(void)
 {
-    node * head = newQuestion("A", "you can't find this anywhere in the book", "How is the word 'poop' spelled?", NULL, NULL);
-    node * second = newQuestion("B", "good luck kid", "This is to demonstrate functionality not meet design detail specifics.", NULL, NULL);
-    node * third = newQuestion("C", "read my mind --(the creator)", "Actual quesitons can be implemented or added by the user later. There is functionality for this.", NULL, NULL);
+    node * head = newQuestion("AAA", "you can't find this anywhere in the book", "How is the word 'poop' spelled?", NULL, NULL);
+    node * second = newQuestion("ZZZ", "good luck kid", "This is to demonstrate functionality not meet design detail specifics.", NULL, NULL);
+    node * third = newQuestion("ggg", "read my mind --(the creator)", "Actual quesitons can be implemented or added by the user later. There is functionality for this.", NULL, NULL);
 
     connectNodes(head, second);
     connectNodes(second, third);
@@ -138,7 +133,11 @@ void searchToKill(node * head, node * seed)
     int choice = 0;
     bool killedOne = false;
 
-    while (current != NULL  && !killedOne)
+    //travers to the last node and go backwards
+    while (current->next !=NULL)
+        current = current->next;
+
+    while (current->previous != NULL  && !killedOne)
     {
         displayQuestion(current);
         guiIn(choice, "\nDelete this question?\n[0/else] to keep\n[1] to delete\n>>>");
@@ -151,7 +150,7 @@ void searchToKill(node * head, node * seed)
             killedOne = true;
         }
         if (!killedOne)
-            current = current->next;
+            current = current->previous;
         else
             cout << "\nDeleted\n";
     }

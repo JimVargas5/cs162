@@ -121,13 +121,14 @@ void fullQuiz(node * head)
     } else
         cout << "\nThe list is empty.\n";
 
+
     return;
 }
 
 
 
 //Displays one question
-void displayQuestion (node * given)
+void displayQuestion(node * given)
 {
     cout << "\nTopic: " << given->q->topic
         << "\nSee in the book: " << given->q->location
@@ -172,7 +173,6 @@ void killQuestion(node * given, node * seed)
     else if (given->previous ==NULL && given->next !=NULL)
     {
         node * temp = seed; 
-        //seed->next->previous = NULL;
         seed = seed->next;
 
         //wash the first question and node
@@ -188,6 +188,7 @@ void killQuestion(node * given, node * seed)
     //remaining case is a null node, or something very spooky
     else
         cout << "This is a null node\n";
+
 
     return;
 }
@@ -221,18 +222,19 @@ void newQProcedure(node * head)
 	{
 		node * newQ = newQuestion();
 		cout <<"\nQuestion on queue: " << newQ->q->topic << endl
-			<< "Commit this question?\n[0/else] to redo\n[1] to commit the question\n>>>";
+			<< "Commit this question?\n[0/else] to quit\n[1] to retry\n[2] to commit the question\n>>>";
 		if (isdigit(cin.peek()))
 		{
 			cin >> choice;
 			ignoreBuffer();
 		}
-		if (choice == 1)
+		if (choice == 2)
 		{
 			commitQ(newQ, head);
 			cout << "\nDone.\n";
 			keepGoing = false;
-		}
+		} else if (choice == 0)
+            keepGoing = false;
 	}	
 
 	return;
@@ -244,28 +246,60 @@ void newQProcedure(node * head)
 void commitQ(node * given, node * head)
 {
 	node * current = head;
-	//we must assume the given head is not null
-	while(current!=NULL)
-	{
-		int comparison = strcmp(given->q->topic, current->q->topic);
-		
-		//A < Z < a < z
-		//int < 0 ==> given goes before current 
-		//int >= 0 ==> given goes after current
-		if (comparison < 0)
-		{
-			current->next->previous = given;
-			given->next = current->next;
+    bool notPlaced = true;
+    int compare;
 
-			given->previous = current;
-			current->next = given;
-		}else
-		{
-		}
+	while(compare > 0 && current->next !=NULL)
+    {
+		compare = strcmp(given->q->topic, current->q->topic);
+        current = current->next;
 	}
+    current = current->previous;
+
+    given->next = current;
+    current->previous->next = given;
+
+    given->previous = current->previous;
+    current->previous = given;
+    
 
 	return;
 }
+
+
+
+//Procedure for searching by topic
+void searchProcedure(node * head)
+{
+    char temp[MAX];
+    cout << "\nYou can search by topic. Your search term:\n>>>";
+    cin.get(temp, MAX, '\n');
+    ignoreBuffer();
+
+   char * searchTerm = new char[strlen(temp)+1];
+   strcpy(searchTerm, temp);
+   node * current = head;
+
+   cout << "\nMatches for '" << searchTerm << "':\n\n";
+   bool any = false;
+   while (current !=NULL)
+   {
+        if (!strcmp(searchTerm, current->q->topic))
+        {
+            cout << "Question: " << current->q->prompt
+                << endl
+                << "Location: " << current->q->location
+                << endl << endl;
+            any = true;
+        }
+        current = current->next;
+   }
+   if (!any)
+       cout << "No matches.\n";
+
+    return;
+}
+
 
 
 
