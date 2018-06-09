@@ -2,6 +2,8 @@
 
 *.exe
 
+*.swf
+*.swg
 *.swh
 *.swi
 *.swj
