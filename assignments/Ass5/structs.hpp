@@ -27,7 +27,7 @@ node *newQuestion(const char t[], const char l[], const char p[], node *n, node 
 void connectNodes(node *, node *);
 void displayQuestion(node*);
 void fullQuiz(node*);
-void killQuestion(node*);
+void killQuestion(node*, node*);
 void washSingle(node *);
 
 

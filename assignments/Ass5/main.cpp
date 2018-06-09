@@ -1,6 +1,6 @@
 // Jim Vargas
 // CS162 Programming Assignment 5
-// 6/??/2018
+// 6/7/2018
 
 /*
    This program acts like a little quizzer thing;
@@ -19,7 +19,7 @@ using namespace std;
 bool gui(node *);
 void guiIn(int&, const char[]);
 node * generateSampleLLL(void);
-void searchToKill(node*);
+void searchToKill(node*, node *);
 
 
 int main()
@@ -30,6 +30,14 @@ int main()
 
     return 0;
 }
+//'seed' is the ultimate source of the built in LLL, the prime head pointer.
+//This prime pointer, seed, is passed downwards into the GUI continuously.
+//Ideally, the prime pointer is to be left alone.
+//However, if the head, or first, node in the built in LLL is to be removed, 
+//  then seed here must be adjusted, not just its derivative copies.
+//Likelwise, if a new node is to be placed at the front of the list, 
+//  access to the prime pointer is necessary.
+//As a consequence, seed must be passed all the way down.
 
 
 
@@ -53,7 +61,7 @@ bool gui(node * seed)
             break;
         //delete a question
         case 1:
-            searchToKill(head);
+            searchToKill(head, seed);
             break;
         //new question
         case 2:
@@ -65,7 +73,6 @@ bool gui(node * seed)
             break;
         //display all questions
         case 4:
-            cout << "\nget to here\n";
             if (head!=NULL)
                 fullQuiz(head);
             else
@@ -119,7 +126,7 @@ node * generateSampleLLL(void)
 
 
 //Go through the list to delete one node
-void searchToKill(node * head)
+void searchToKill(node * head, node * seed)
 {
     node * current = head;
     int choice = 0;
@@ -134,7 +141,7 @@ void searchToKill(node * head)
         //I am iterating through the list with 'current'
         if (choice == 1)
         {
-            killQuestion(current);
+            killQuestion(current, seed);
             killedOne = true;
         }
         if (!killedOne)

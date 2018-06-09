@@ -65,7 +65,7 @@ node *newQuestion(
         const char givenLocation[],
         const char givenPrompt[],
         node *givenNext, node *givenPrevious
-        )
+    )
 {
     //pointer fields
     node * newOne = new node;
@@ -140,7 +140,8 @@ void displayQuestion (node * given)
 
 
 //Remove given node from the list
-void killQuestion(node * given)
+//Needs a given node and a fundamental source pointer in order to kill the head node
+void killQuestion(node * given, node * seed)
 {
     //To way traversibility
 
@@ -167,17 +168,17 @@ void killQuestion(node * given)
         washSingle(given);
     }
 
-    //this case is for the beginning
+    //this case is for the beginning, head 
     else if (given->previous ==NULL && given->next !=NULL)
     {
-        node * temp = given->next;
+        node * temp = seed; 
+        //seed->next->previous = NULL;
+        seed = seed->next;
 
-        temp->previous = NULL;
-        //given->next->previous = NULL;
-        washSingle(given);
+        //wash the first question and node
+        washSingle(temp);
 
-        given = temp;
-        //washSingle(temp);
+        seed->previous = NULL;
     }
 
     //this case is for if there's only a head node
