@@ -29,6 +29,8 @@ void displayQuestion(node*);
 void fullQuiz(node*);
 void killQuestion(node*, node*);
 void washSingle(node *);
+void newQProcedure(node*);
+void commitQ(node*, node*);
 
 
 

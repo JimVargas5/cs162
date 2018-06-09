@@ -16,17 +16,23 @@
 using namespace std;
 
 
-bool gui(node *);
+bool gui(node *&);
 void guiIn(int&, const char[]);
 node * generateSampleLLL(void);
+<<<<<<< HEAD
 void searchToKill(node*, node *);
+=======
+void searchToKill(node*);
+//void newQProcedure(node*);
+>>>>>>> 195f408c4a4f05f95c76dbd1ff955f3a13428321
 
 
 int main()
 {
     node * seed = generateSampleLLL();
-
-    while (gui(seed));
+	bool keepGoing = true;
+    while (keepGoing)
+	keepGoing = gui(seed);
 
     return 0;
 }
@@ -42,7 +48,7 @@ int main()
 
 
 //Main General User Interface
-bool gui(node * seed)
+bool gui(node * &seed)
 {
     bool keepGoing = true;
     int choice = 0;
@@ -65,7 +71,7 @@ bool gui(node * seed)
             break;
         //new question
         case 2:
-            cout << "\nnew questo\n";
+            newQProcedure(head);
             break;
         //search questions by topic
         case 3:

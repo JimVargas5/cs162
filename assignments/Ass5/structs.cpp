@@ -210,6 +210,68 @@ void washSingle(node * given)
 
 
 
+//Procedure for creating a new question to be added into the list
+void newQProcedure(node * head)
+{
+	bool keepGoing = true;
+	int choice = 0;
+
+	//loop so the user can redo if necessary
+	while(keepGoing)
+	{
+		node * newQ = newQuestion();
+		cout <<"\nQuestion on queue: " << newQ->q->topic << endl
+			<< "Commit this question?\n[0/else] to redo\n[1] to commit the question\n>>>";
+		if (isdigit(cin.peek()))
+		{
+			cin >> choice;
+			ignoreBuffer();
+		}
+		if (choice == 1)
+		{
+			commitQ(newQ, head);
+			cout << "\nDone.\n";
+			keepGoing = false;
+		}
+	}	
+
+	return;
+}
+
+
+
+//Commits a given new question into an established LLL
+void commitQ(node * given, node * head)
+{
+	node * current = head;
+	//we must assume the given head is not null
+	while(current!=NULL)
+	{
+		int comparison = strcmp(given->q->topic, current->q->topic);
+		
+		//A < Z < a < z
+		//int < 0 ==> given goes before current 
+		//int >= 0 ==> given goes after current
+		if (comparison < 0)
+		{
+			current->next->previous = given;
+			given->next = current->next;
+
+			given->previous = current;
+			current->next = given;
+		}else
+		{
+		}
+	}
+
+	return;
+}
+
+
+
+
+
+
 
 
 
